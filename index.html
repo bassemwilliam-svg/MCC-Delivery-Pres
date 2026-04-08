@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARK × MCC | Capability Intelligence Platform</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --surface-black: #0C0C10;
+  --deep-navy: #19213D;
+  --warm-white: #F5F0EB;
+  --brand-blue: #1777E7;
+  --muted-gray: #7A756F;
+  --body-dark: #090909;
+  --data-positive: #22C55E;
+  --data-warning: #F59E0B;
+  --data-negative: #EF4444;
+  --data-neutral: #1777E7;
+  --cap1: #1777E7;
+  --cap2: #22C55E;
+  --cap3: #F59E0B;
+  --cap4: #EF4444;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+@font-face {
+  font-family: 'System';
+  src: local('-apple-system'), local('BlinkMacSystemFont'), local('Segoe UI'), local('Roboto');
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--body-dark);
+  color: var(--warm-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(12,12,16,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(245,240,235,0.06);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  transition: transform 0.3s ease;
+}
+
+nav.hidden { transform: translateY(-100%); }
+
+.nav-logo {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-gray);
+  font-weight: 600;
+}
+
+.nav-logo span { color: var(--brand-blue); }
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-links a {
+  color: var(--muted-gray);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--warm-white);
+  background: rgba(245,240,235,0.06);
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONFIDENTIAL WATERMARK
+   ═══════════════════════════════════════════════════════════════ */
+.watermark {
+  position: fixed;
+  bottom: 1rem;
+  right: 1.5rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245,240,235,0.08);
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS
+   ═══════════════════════════════════════════════════════════════ */
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Scroll-triggered animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+.reveal-delay-4 { transition-delay: 0.6s; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--muted-gray);
+  line-height: 1.7;
+}
+
+#current .subtitle {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.highlight { color: var(--brand-blue); }
+.highlight-green { color: var(--data-positive); }
+.highlight-amber { color: var(--data-warning); }
+.highlight-red { color: var(--data-negative); }
+
+.key-message {
+  margin-top: 3rem;
+  padding: 1.5rem 2rem;
+  border-left: 3px solid var(--brand-blue);
+  background: rgba(23,119,231,0.06);
+  border-radius: 0 8px 8px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(23,119,231,0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 70% 60%, rgba(25,33,61,0.4), transparent);
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-gray);
+  border: 1px solid rgba(245,240,235,0.1);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  margin-bottom: 2.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin: 0 auto 1.5rem;
+  max-width: 900px;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--muted-gray);
+  max-width: 550px;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+}
+
+.scroll-prompt {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-gray);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: pulseDown 2s ease-in-out infinite;
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1.5px solid var(--muted-gray);
+  border-bottom: 1.5px solid var(--muted-gray);
+  transform: rotate(45deg);
+}
+
+@keyframes pulseDown {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(8px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAT GRID
+   ═══════════════════════════════════════════════════════════════ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.stat-card {
+  background: var(--deep-navy);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid rgba(245,240,235,0.04);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RADAR CHART
+   ═══════════════════════════════════════════════════════════════ */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+canvas.radar {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAP SECTION — QUESTION CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+
+.question-card {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.question-card .q-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: var(--warm-white);
+}
+
+.answer-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.5s ease;
+}
+
+.answer-badge.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.answer-no {
+  background: rgba(239,68,68,0.15);
+  color: var(--data-negative);
+}
+
+.answer-yes {
+  background: rgba(34,197,94,0.15);
+  color: var(--data-positive);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CAPS CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.caps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+
+.cap-card {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.cap-card:hover {
+  transform: translateY(-4px);
+}
+
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.cap-card[data-cap="1"]::before { background: var(--cap1); }
+.cap-card[data-cap="2"]::before { background: var(--cap2); }
+.cap-card[data-cap="3"]::before { background: var(--cap3); }
+.cap-card[data-cap="4"]::before { background: var(--cap4); }
+
+.cap-card[data-cap="1"]:hover { border-color: rgba(23,119,231,0.3); }
+.cap-card[data-cap="2"]:hover { border-color: rgba(34,197,94,0.3); }
+.cap-card[data-cap="3"]:hover { border-color: rgba(245,158,11,0.3); }
+.cap-card[data-cap="4"]:hover { border-color: rgba(239,68,68,0.3); }
+
+.cap-id {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.cap-card[data-cap="1"] .cap-id { color: var(--cap1); }
+.cap-card[data-cap="2"] .cap-id { color: var(--cap2); }
+.cap-card[data-cap="3"] .cap-id { color: var(--cap3); }
+.cap-card[data-cap="4"] .cap-id { color: var(--cap4); }
+
+.cap-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cap-question {
+  font-size: 0.95rem;
+  color: var(--muted-gray);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.cap-maps {
+  font-size: 0.75rem;
+  color: var(--muted-gray);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245,240,235,0.06);
+}
+
+.cap-maps strong {
+  color: var(--warm-white);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DATA FLOW VISUALIZATION
+   ═══════════════════════════════════════════════════════════════ */
+.flow-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.flow-box {
+  background: var(--deep-navy);
+  border: 1px solid rgba(245,240,235,0.08);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  min-width: 140px;
+}
+
+.flow-box .fb-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted-gray);
+  margin-bottom: 0.3rem;
+}
+
+.flow-box .fb-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.flow-arrow {
+  font-size: 1.5rem;
+  color: var(--brand-blue);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THREE DASHBOARDS — TABS
+   ═══════════════════════════════════════════════════════════════ */
+.tab-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.08);
+  color: var(--muted-gray);
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tab-btn:hover { border-color: rgba(245,240,235,0.15); color: var(--warm-white); }
+.tab-btn.active { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Mock Dashboard */
+.mock-dashboard {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 16px;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dash-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.dash-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  background: rgba(23,119,231,0.12);
+  color: var(--brand-blue);
+}
+
+.dash-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 700px) {
+  .dash-metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+.dash-metric {
+  background: var(--deep-navy);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.dm-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.dm-label {
+  font-size: 0.7rem;
+  color: var(--muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dm-trend {
+  font-size: 0.7rem;
+  margin-top: 0.3rem;
+  font-weight: 600;
+}
+
+.trend-up { color: var(--data-positive); }
+.trend-down { color: var(--data-negative); }
+.trend-flat { color: var(--data-warning); }
+
+/* Heat map grid */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  margin: 1rem 0;
+}
+
+.heat-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.heat-cell:hover { transform: scale(1.15); z-index: 2; }
+
+.heat-cell .tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.15);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.65rem;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.heat-cell:hover .tooltip { display: block; }
+
+/* Line chart placeholder */
+.line-chart-area {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  margin: 1rem 0;
+}
+
+.line-chart-area canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AI ANALYSIS SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.ai-terminal {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.ai-terminal-header {
+  padding: 0.75rem 1.25rem;
+  background: var(--deep-navy);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(245,240,235,0.06);
+}
+
+.ai-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.ai-dot-red { background: #EF4444; }
+.ai-dot-yellow { background: #F59E0B; }
+.ai-dot-green { background: #22C55E; }
+
+.ai-terminal-title {
+  font-size: 0.7rem;
+  color: var(--muted-gray);
+  margin-left: 0.5rem;
+  letter-spacing: 0.08em;
+}
+
+.ai-terminal-body {
+  padding: 1.5rem;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  min-height: 340px;
+  position: relative;
+}
+
+.ai-line {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  margin-bottom: 0.5rem;
+}
+
+.ai-line.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ai-line .prefix {
+  color: var(--brand-blue);
+  margin-right: 0.5rem;
+}
+
+.ai-line .ai-insight {
+  color: var(--data-positive);
+}
+
+.ai-line .ai-warning {
+  color: var(--data-warning);
+}
+
+.ai-line .ai-critical {
+  color: var(--data-negative);
+}
+
+.ai-line .ai-dim {
+  color: var(--muted-gray);
+}
+
+.ai-run-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--brand-blue);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-top: 1rem;
+}
+
+.ai-run-btn:hover { background: #1565c0; transform: translateY(-1px); }
+.ai-run-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   BEFORE / AFTER
+   ═══════════════════════════════════════════════════════════════ */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 700px) {
+  .comparison { grid-template-columns: 1fr; }
+}
+
+.compare-panel {
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(245,240,235,0.06);
+}
+
+.compare-before {
+  background: var(--surface-black);
+}
+
+.compare-after {
+  background: linear-gradient(135deg, rgba(23,119,231,0.08), rgba(25,33,61,0.6));
+  border-color: rgba(23,119,231,0.2);
+}
+
+.compare-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.compare-before .compare-label { color: var(--muted-gray); }
+.compare-after .compare-label { color: var(--brand-blue); }
+
+.compare-score {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.compare-verdict {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(245,240,235,0.06);
+}
+
+.cap-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.cap-score-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(245,240,235,0.06);
+  flex: 1;
+  margin: 0 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cap-score-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.5s ease;
+  width: 0;
+}
+
+.ai-rec {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(23,119,231,0.08);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--brand-blue);
+}
+
+.ai-rec-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROI CALCULATOR
+   ═══════════════════════════════════════════════════════════════ */
+.roi-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 700px) {
+  .roi-controls { grid-template-columns: 1fr; }
+}
+
+.roi-input-group {
+  background: var(--deep-navy);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.roi-label {
+  font-size: 0.75rem;
+  color: var(--muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.roi-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(245,240,235,0.1);
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+.roi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  cursor: pointer;
+  border: 2px solid var(--warm-white);
+}
+
+.roi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.roi-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.roi-result-card {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.roi-result-value {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  color: var(--data-positive);
+}
+
+.roi-result-label {
+  font-size: 0.75rem;
+  color: var(--muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROADMAP
+   ═══════════════════════════════════════════════════════════════ */
+.roadmap {
+  position: relative;
+  margin: 3rem 0;
+  padding-left: 3rem;
+}
+
+.roadmap::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--brand-blue), var(--data-positive));
+}
+
+.roadmap-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 12px;
+  transition: border-color 0.3s ease;
+}
+
+.roadmap-item:hover {
+  border-color: rgba(23,119,231,0.2);
+}
+
+.roadmap-item::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 1.8rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  border: 3px solid var(--body-dark);
+}
+
+.roadmap-phase {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.roadmap-duration {
+  display: inline-block;
+  font-size: 0.65rem;
+  background: rgba(23,119,231,0.1);
+  color: var(--brand-blue);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.roadmap-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.roadmap-desc {
+  font-size: 0.9rem;
+  color: var(--muted-gray);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLOSING
+   ═══════════════════════════════════════════════════════════════ */
+#closing {
+  text-align: center;
+}
+
+#closing h2 {
+  max-width: 750px;
+  margin: 0 auto 1.5rem;
+}
+
+.closing-tagline {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--muted-gray);
+  max-width: 650px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--brand-blue);
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.cta-btn:hover { background: #1565c0; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(23,119,231,0.3); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION DIVIDER
+   ═══════════════════════════════════════════════════════════════ */
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--brand-blue);
+  margin: 0 auto 3rem;
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  nav, .watermark, .scroll-prompt { display: none; }
+  section { min-height: auto; page-break-inside: avoid; padding: 2rem; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav id="mainNav">
+  <div class="nav-logo"><img src="1500x500.jpeg" alt="MCC — Monitoring & Control Centre" style="height:36px; width:auto; vertical-align:middle;"></div>
+  <div class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#current">Current</a>
+    <a href="#gap">Next Step</a>
+    <a href="#caps">CAPS</a>
+    <a href="#dashboards">Dashboards</a>
+    <a href="#ai">AI Engine</a>
+    <a href="#compare">Compare</a>
+    <a href="#roi">ROI</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<div class="watermark">Confidential | MCC Internal</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1: HERO
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="section-inner" style="text-align:center; position:relative; z-index:1;">
+    <img src="Untitled design-2.png" alt="Abu Dhabi Crest" class="reveal" style="width:70px; height:auto; display:block; margin:0 auto 1.5rem; border-radius:50%;">
+    <div class="hero-badge reveal">MCC × ARK Integration: Phase 2 Proposal</div>
+    <h1 class="hero-title reveal reveal-delay-1">What if you could<br><span class="highlight">read your operators' minds?</span></h1>
+    <p class="hero-sub reveal reveal-delay-2">You built a world-class VR training system. Now it's time to unlock what it's really measuring. Not just performance, but <strong>human capability</strong>.</p>
+  </div>
+  <div class="scroll-prompt">
+    <span>Scroll to explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2: WHAT WE'VE BUILT
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="current">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-label reveal">What We've Built</div>
+    <h2 class="reveal">The MCC VR Training System<br>is <span class="highlight">already world-class.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">A fully on-premises, biometric-integrated VR CCTV training platform. 5 scenarios. 8 operator stations. Real-time eye tracking, stress monitoring, and AI-driven performance reports.</p>
+
+    <div class="stat-grid reveal reveal-delay-2">
+      <div class="stat-card">
+        <div class="stat-number highlight">5</div>
+        <div class="stat-label">VR Scenarios</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight">8+1</div>
+        <div class="stat-label">Operator + Supervisor Stations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight">9</div>
+        <div class="stat-label">Biometric Signals Tracked</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight">4</div>
+        <div class="stat-label">Scoring Dimensions</div>
+      </div>
+    </div>
+
+    <div class="chart-container reveal reveal-delay-3">
+      <canvas class="radar" id="currentRadar" width="500" height="500"></canvas>
+    </div>
+
+    <div class="key-message reveal reveal-delay-3">
+      This is an exceptional training system. But right now, it's measuring <strong>performance</strong>.<br>It's not yet measuring <strong>capability</strong>. There's a critical difference.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 3: THE GAP
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="gap">
+  <div class="section-inner">
+    <div class="section-label reveal">The Next Evolution</div>
+    <h2 class="reveal">An operator scores <span class="highlight">82</span>.<br>Now imagine knowing <em>why</em>.</h2>
+
+    <div class="question-grid reveal reveal-delay-1" id="questionGrid">
+      <div class="question-card">
+        <div class="q-text">How will they perform under <strong>real-world stress</strong> beyond the simulation?</div>
+        <div class="answer-badge answer-yes" data-delay="800">ARK can tell you</div>
+      </div>
+      <div class="question-card">
+        <div class="q-text">Can they detect a <strong>new threat type</strong> they haven't trained on?</div>
+        <div class="answer-badge answer-yes" data-delay="1200">ARK can predict it</div>
+      </div>
+      <div class="question-card">
+        <div class="q-text">Are their capabilities <strong>growing or decaying</strong> between sessions?</div>
+        <div class="answer-badge answer-yes" data-delay="1600">ARK tracks it</div>
+      </div>
+      <div class="question-card">
+        <div class="q-text">After a mistake, do they <strong>recover</strong> or <strong>cascade</strong>?</div>
+        <div class="answer-badge answer-yes" data-delay="2000">ARK reveals it</div>
+      </div>
+    </div>
+
+    <div class="key-message reveal reveal-delay-2">
+      The system already captures <strong>world-class data</strong>. The next step is turning scores into <strong>capability intelligence</strong>.<br>
+      <span class="highlight" style="font-size:1.2rem; display:block; margin-top:0.75rem;">That's what ARK unlocks.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 4: ARK CAPS FRAMEWORK
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="caps">
+  <div class="section-inner">
+    <div class="section-label reveal">The ARK CAPS Framework</div>
+    <h2 class="reveal">Four capabilities.<br><span class="highlight">The operating system of human performance.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">The CAPS framework maps everything your system already collects into four measurable dimensions of operator capability.</p>
+
+    <div class="caps-grid">
+      <div class="cap-card reveal reveal-delay-1" data-cap="1">
+        <div class="cap-id">CAP-1</div>
+        <div class="cap-name">Sensemaking</div>
+        <div class="cap-question">"Can they read the situation correctly?"</div>
+        <p class="cap-maps"><strong>Maps to:</strong> Detection Accuracy + Attention/Gaze + camera switching patterns + fixation distribution</p>
+      </div>
+      <div class="cap-card reveal reveal-delay-2" data-cap="2">
+        <div class="cap-id">CAP-2</div>
+        <div class="cap-name">Communication & Coordination</div>
+        <div class="cap-question">"Can they relay information under pressure?"</div>
+        <p class="cap-maps"><strong>Maps to:</strong> Alarm handling + marking precision + response protocols + supervisor communication timing</p>
+      </div>
+      <div class="cap-card reveal reveal-delay-3" data-cap="3">
+        <div class="cap-id">CAP-3</div>
+        <div class="cap-name">Decision Under Pressure</div>
+        <div class="cap-question">"Right call, high stakes, short time?"</div>
+        <p class="cap-maps"><strong>Maps to:</strong> Timeliness + False Positive avoidance + stress-correlated decision quality + HR/EDA at decision points</p>
+      </div>
+      <div class="cap-card reveal reveal-delay-4" data-cap="4">
+        <div class="cap-id">CAP-4</div>
+        <div class="cap-name">Recovery & Resilience</div>
+        <div class="cap-question">"Can they regroup after errors?"</div>
+        <p class="cap-maps"><strong>Maps to:</strong> Performance after missed detections + distraction recovery time + biometric recovery curves + tunnel vision recovery</p>
+      </div>
+    </div>
+
+    <div class="flow-visual reveal">
+      <div class="flow-box">
+        <div class="fb-label">Eye Tracking</div>
+        <div class="fb-value">Fixations, saccades, gaze</div>
+      </div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">
+        <div class="fb-label">Biometrics</div>
+        <div class="fb-value">HR, EDA, SCR, temp</div>
+      </div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">
+        <div class="fb-label">Actions</div>
+        <div class="fb-value">Marks, alarms, PTZ</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color: rgba(23,119,231,0.3); background: rgba(23,119,231,0.08);">
+        <div class="fb-label" style="color: var(--brand-blue);">ARK CAPS Engine</div>
+        <div class="fb-value" style="color: var(--brand-blue);">4 Capability Scores</div>
+      </div>
+    </div>
+
+    <div class="key-message reveal">
+      You're <strong>already collecting the data</strong>. Every eye movement, every heartbeat, every decision is recorded.<br>
+      ARK makes it <strong>speak</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 5: THREE DASHBOARDS
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="dashboards">
+  <div class="section-inner">
+    <div class="section-label reveal">Three Dashboards</div>
+    <h2 class="reveal">One truth.<br><span class="highlight">Every level gets what they need.</span></h2>
+
+    <div class="tab-bar reveal reveal-delay-1">
+      <button class="tab-btn active" onclick="switchTab('operator')">Operator View</button>
+      <button class="tab-btn" onclick="switchTab('supervisor')">Supervisor View</button>
+      <button class="tab-btn" onclick="switchTab('org')">Organization View</button>
+    </div>
+
+    <!-- OPERATOR DASHBOARD -->
+    <div class="tab-content active" id="tab-operator">
+      <div class="mock-dashboard reveal reveal-delay-2">
+        <div class="dash-header">
+          <div class="dash-title">Operator Capability Profile: Ahmed Al-Rashid</div>
+          <div class="dash-badge">Personal View</div>
+        </div>
+        <div class="dash-metrics">
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--cap1)">91</div>
+            <div class="dm-label">Sensemaking</div>
+            <div class="dm-trend trend-up">▲ +4 from last month</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--cap2)">65</div>
+            <div class="dm-label">Communication</div>
+            <div class="dm-trend trend-down">▼ −3 flagged</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--cap3)">84</div>
+            <div class="dm-label">Decision</div>
+            <div class="dm-trend trend-up">▲ +7 improving</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--cap4)">52</div>
+            <div class="dm-label">Recovery</div>
+            <div class="dm-trend trend-down">▼ At risk</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-gray); margin-bottom:0.75rem;">Capability Over Time (12 Sessions)</div>
+            <div class="line-chart-area"><canvas id="operatorLineChart"></canvas></div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-gray); margin-bottom:0.75rem;">Stress-Performance Correlation</div>
+            <div class="line-chart-area"><canvas id="stressCorrelation"></canvas></div>
+          </div>
+        </div>
+        <div class="ai-rec" style="margin-top:1.5rem;">
+          <div class="ai-rec-label">AI Insight</div>
+          Ahmed's sensemaking is elite-tier. He scans cameras 40% more frequently than peers. But his <strong>recovery after a missed detection collapses</strong>: accuracy drops 38% for 90 seconds after any error. Focus training: error recovery drills with progressive distraction.
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERVISOR DASHBOARD -->
+    <div class="tab-content" id="tab-supervisor">
+      <div class="mock-dashboard">
+        <div class="dash-header">
+          <div class="dash-title">Team Capability Matrix: Shift B (8 Operators)</div>
+          <div class="dash-badge">Supervisor View</div>
+        </div>
+        <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-gray); margin-bottom:0.75rem;">Capability Heat Map: All Operators × All CAPS</div>
+        <div style="display:grid; grid-template-columns: 120px repeat(4, 1fr); gap:4px; margin-bottom:2rem;">
+          <div style="font-size:0.65rem; color:var(--muted-gray);"></div>
+          <div style="font-size:0.65rem; color:var(--cap1); text-align:center; font-weight:600;">CAP-1</div>
+          <div style="font-size:0.65rem; color:var(--cap2); text-align:center; font-weight:600;">CAP-2</div>
+          <div style="font-size:0.65rem; color:var(--cap3); text-align:center; font-weight:600;">CAP-3</div>
+          <div style="font-size:0.65rem; color:var(--cap4); text-align:center; font-weight:600;">CAP-4</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Ahmed A.</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">91</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">65</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.7); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">84</div>
+          <div class="heat-cell" style="background:rgba(239,68,68,0.6); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">52</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Khalid M.</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">74</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">88</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">71</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.7); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">83</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Omar S.</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">62</div>
+          <div class="heat-cell" style="background:rgba(239,68,68,0.6); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">48</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">69</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">61</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Saeed F.</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">87</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">79</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">92</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">76</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Hassan R.</div>
+          <div class="heat-cell" style="background:rgba(239,68,68,0.6); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">45</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">58</div>
+          <div class="heat-cell" style="background:rgba(239,68,68,0.6); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">41</div>
+          <div class="heat-cell" style="background:rgba(239,68,68,0.6); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">39</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Youssef D.</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">78</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">72</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">76</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">70</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Tariq N.</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">85</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.7); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">81</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">67</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.8); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">88</div>
+
+          <div style="font-size:0.75rem; padding:0.5rem;">Faisal K.</div>
+          <div class="heat-cell" style="background:rgba(34,197,94,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">73</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">64</div>
+          <div class="heat-cell" style="background:rgba(23,119,231,0.7); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">80</div>
+          <div class="heat-cell" style="background:rgba(245,158,11,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700;">59</div>
+        </div>
+        <div class="ai-rec">
+          <div class="ai-rec-label">Supervisor Alert</div>
+          <strong>Hassan R.</strong> is below threshold across all four capabilities. Recommend immediate intervention: paired mentoring with Saeed F. (highest Decision score: 92). <strong>Omar S.</strong> has a Communication gap (48). Schedule targeted alarm-handling drills before next shift rotation.
+        </div>
+      </div>
+    </div>
+
+    <!-- ORGANIZATION DASHBOARD -->
+    <div class="tab-content" id="tab-org">
+      <div class="mock-dashboard">
+        <div class="dash-header">
+          <div class="dash-title">MCC Readiness Posture: All Shifts</div>
+          <div class="dash-badge">Organization View</div>
+        </div>
+        <div class="dash-metrics">
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--data-positive)">74%</div>
+            <div class="dm-label">Overall Readiness</div>
+            <div class="dm-trend trend-up">▲ +6% from Q1</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--data-warning)">2</div>
+            <div class="dm-label">Shifts Below Threshold</div>
+            <div class="dm-trend trend-down">Shift C, Shift D</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--cap4)">58</div>
+            <div class="dm-label">Weakest CAP (Recovery)</div>
+            <div class="dm-trend trend-flat">→ Systemic gap</div>
+          </div>
+          <div class="dash-metric">
+            <div class="dm-value" style="color:var(--data-positive)">12%</div>
+            <div class="dm-label">Capability Decay Rate</div>
+            <div class="dm-trend trend-down">Per quarter without training</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-gray); margin-bottom:0.75rem;">Capability by Shift</div>
+            <div class="line-chart-area"><canvas id="orgShiftChart"></canvas></div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-gray); margin-bottom:0.75rem;">Readiness Trend (6 Months)</div>
+            <div class="line-chart-area"><canvas id="orgTrendChart"></canvas></div>
+          </div>
+        </div>
+        <div class="ai-rec" style="margin-top:1.5rem;">
+          <div class="ai-rec-label">Strategic Insight</div>
+          <strong>Recovery & Resilience (CAP-4) is a systemic weakness.</strong> It's the lowest capability across all shifts (avg: 58). This isn't an individual training problem; it's an organizational gap. Recommend: integrate error-recovery scenarios into every training session as a mandatory component, not an optional module. Projected impact: +15% CAP-4 improvement within 8 weeks.
+        </div>
+      </div>
+    </div>
+
+    <div class="key-message reveal" style="margin-top:2rem;">
+      Three views. One truth. Every level of leadership gets <strong>exactly what they need</strong> to make decisions.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 6: AI ANALYSIS ENGINE
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="ai">
+  <div class="section-inner">
+    <div class="section-label reveal">AI Analysis Engine</div>
+    <h2 class="reveal">Feed it a session.<br><span class="highlight">Watch it think.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">ARK's AI doesn't just calculate scores. It finds patterns humans can't see. Correlations between stress, attention, decisions, and capability that reveal who is truly ready.</p>
+
+    <div class="ai-terminal reveal reveal-delay-2">
+      <div class="ai-terminal-header">
+        <div class="ai-dot ai-dot-red"></div>
+        <div class="ai-dot ai-dot-yellow"></div>
+        <div class="ai-dot ai-dot-green"></div>
+        <div class="ai-terminal-title">ARK CAPS Intelligence Engine: Session Analysis</div>
+      </div>
+      <div class="ai-terminal-body" id="aiTerminal">
+        <div class="ai-line" data-order="0"><span class="ai-dim">// Click "Run Analysis" to process a sample operator session</span></div>
+      </div>
+    </div>
+
+    <button class="ai-run-btn" id="aiRunBtn" onclick="runAiAnalysis()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg>
+      Run Analysis | Operator: Ahmed Al-Rashid, Scenario: Embassy
+    </button>
+
+    <div class="key-message reveal" style="margin-top:2rem;">
+      AI that doesn't just report. AI that <strong>reveals what was invisible</strong>. The hidden correlations between biology, behavior, and capability.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 7: BEFORE VS AFTER
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="compare">
+  <div class="section-inner">
+    <div class="section-label reveal">The Transformation</div>
+    <h2 class="reveal">Same data.<br><span class="highlight">Completely different intelligence.</span></h2>
+
+    <div class="comparison reveal reveal-delay-1" id="comparisonSection">
+      <div class="compare-panel compare-before">
+        <div class="compare-label">Before ARK</div>
+        <div class="compare-score" style="color:var(--muted-gray);">78</div>
+        <div class="compare-verdict" style="color:var(--muted-gray);">"Competent." End of story.</div>
+        <div style="font-size:0.85rem; color:var(--muted-gray); line-height:1.8;">
+          Detection Accuracy: 80%<br>
+          False Positives: 2<br>
+          Response Time: 7.3s avg<br>
+          Attention Score: 74%<br><br>
+          <em>Recommendation: "Continue current training."</em>
+        </div>
+      </div>
+
+      <div class="compare-panel compare-after">
+        <div class="compare-label">After ARK</div>
+        <div class="compare-score" style="color:var(--warm-white);">CAPS Profile</div>
+
+        <div class="cap-score-row">
+          <span style="font-size:0.75rem; width:100px; color:var(--cap1);">CAP-1</span>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="91" style="background:var(--cap1);"></div></div>
+          <span style="font-size:0.85rem; font-weight:700;">91</span>
+        </div>
+        <div class="cap-score-row">
+          <span style="font-size:0.75rem; width:100px; color:var(--cap2);">CAP-2</span>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="65" style="background:var(--cap2);"></div></div>
+          <span style="font-size:0.85rem; font-weight:700;">65</span>
+        </div>
+        <div class="cap-score-row">
+          <span style="font-size:0.75rem; width:100px; color:var(--cap3);">CAP-3</span>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="84" style="background:var(--cap3);"></div></div>
+          <span style="font-size:0.85rem; font-weight:700;">84</span>
+        </div>
+        <div class="cap-score-row">
+          <span style="font-size:0.75rem; width:100px; color:var(--cap4);">CAP-4</span>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="52" style="background:var(--cap4);"></div></div>
+          <span style="font-size:0.85rem; font-weight:700;">52</span>
+        </div>
+
+        <div class="ai-rec">
+          <div class="ai-rec-label">AI Recommendation</div>
+          <strong>Focus on recovery drills.</strong> This operator performs exceptionally until their first mistake, then performance cascades. CAP-4 (Recovery) is the single point of failure. Pair with Tariq N. (CAP-4: 88) for mentored error-recovery scenarios. Projected improvement: CAP-4 → 71 within 6 sessions.
+        </div>
+      </div>
+    </div>
+
+    <div class="key-message reveal reveal-delay-2">
+      The score said <em>"competent."</em> ARK found a <strong>hidden vulnerability</strong> that could mean the difference between a controlled incident and a cascading failure.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 8: ROI CALCULATOR
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="roi">
+  <div class="section-inner">
+    <div class="section-label reveal">Return on Investment</div>
+    <h2 class="reveal">The numbers behind<br><span class="highlight">capability intelligence.</span></h2>
+
+    <div class="roi-controls reveal reveal-delay-1">
+      <div class="roi-input-group">
+        <label class="roi-label">Number of Operators</label>
+        <input type="range" class="roi-slider" id="roiOperators" min="8" max="200" value="40" oninput="updateROI()">
+        <div class="roi-value" id="roiOperatorsVal">40</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Training Sessions / Month</label>
+        <input type="range" class="roi-slider" id="roiSessions" min="1" max="20" value="4" oninput="updateROI()">
+        <div class="roi-value" id="roiSessionsVal">4</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Manual Assessment Hours / Operator / Month</label>
+        <input type="range" class="roi-slider" id="roiManualHours" min="1" max="10" value="3" oninput="updateROI()">
+        <div class="roi-value" id="roiManualHoursVal">3 hrs</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Cost of a Missed Detection (AED)</label>
+        <input type="range" class="roi-slider" id="roiMissedCost" min="10000" max="5000000" step="10000" value="500000" oninput="updateROI()">
+        <div class="roi-value" id="roiMissedCostVal">500,000</div>
+      </div>
+    </div>
+
+    <div class="roi-results reveal reveal-delay-2">
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiTimeSaved">1,440</div>
+        <div class="roi-result-label">Assessment Hours Saved / Year</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiCapImprove">+23%</div>
+        <div class="roi-result-label">Projected Capability Improvement</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiRiskReduction">67%</div>
+        <div class="roi-result-label">Reduction in Capability Blind Spots</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiCostAvoid" style="color:var(--data-positive);">AED 2.4M</div>
+        <div class="roi-result-label">Estimated Annual Risk Avoidance</div>
+      </div>
+    </div>
+
+    <div class="key-message reveal" style="margin-top:2rem;">
+      Every operator whose hidden weakness goes undetected is a <strong>liability you can't see</strong>. ARK makes it visible before it becomes an incident.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 9: IMPLEMENTATION ROADMAP
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="section-inner">
+    <div class="section-label reveal">Implementation Roadmap</div>
+    <h2 class="reveal">You've built the foundation.<br><span class="highlight">ARK is the upgrade, not a rebuild.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Zero disruption to current operations. ARK layers on top of everything you already have.</p>
+
+    <div class="roadmap reveal reveal-delay-2">
+      <div class="roadmap-item">
+        <div class="roadmap-phase">Phase 1 <span class="roadmap-duration">4 Weeks</span></div>
+        <div class="roadmap-title">CAPS Data Mapping</div>
+        <div class="roadmap-desc">Map all existing MCC data streams (eye tracking, biometrics, operator actions, alarm responses) into the four-CAP framework. Define SubCAP metrics specific to MCC scenarios. Configure scoring algorithms. <strong>Zero changes to the operator experience.</strong></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-phase">Phase 2 <span class="roadmap-duration">6 Weeks</span></div>
+        <div class="roadmap-title">Dashboard Integration</div>
+        <div class="roadmap-desc">Deploy the three-tier ARK dashboard alongside existing supervisor tools. Operator capability profiles, supervisor team heat maps, and organization readiness posture. All running from the same on-premises servers. <strong>All data stays local.</strong></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-phase">Phase 3 <span class="roadmap-duration">4 Weeks</span></div>
+        <div class="roadmap-title">AI Analysis Engine</div>
+        <div class="roadmap-desc">Activate pattern detection, capability decay tracking, stress-performance correlation, and predictive readiness scoring. AI runs on-premises. No cloud, no external data exposure. <strong>The system starts learning from every session.</strong></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-phase">Phase 4 <span class="roadmap-duration">Ongoing</span></div>
+        <div class="roadmap-title">Continuous Capability Intelligence</div>
+        <div class="roadmap-desc">Monthly capability reports, shift readiness confidence scores, strategic workforce planning. The system gets smarter with every session. Capability benchmarks evolve with your organization. <strong>Training becomes a living intelligence system.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 10: CLOSING
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="closing">
+  <div class="section-inner">
+    <div class="section-divider"></div>
+    <h2 class="reveal">MCC didn't just buy training.<br><span class="highlight">MCC built a capability measurement infrastructure.</span></h2>
+    <p class="closing-tagline reveal reveal-delay-1">The question isn't whether to integrate ARK.<br>It's how much longer you want to fly <strong>without instruments</strong>.</p>
+    <div class="reveal reveal-delay-2">
+      <button class="cta-btn" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
+        Let's Build Phase 2 →
+      </button>
+    </div>
+    <div style="margin-top:4rem; text-align:center;">
+      <img src="1500x500.jpeg" alt="MCC — Monitoring & Control Centre" style="width:200px; height:auto; margin-bottom:1rem; opacity:0.7;">
+      <div style="font-size:0.7rem; color:var(--muted-gray); letter-spacing:0.1em;">
+        MCC | CONFIDENTIAL<br>
+        Prepared April 2026
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+// ─── SCROLL REVEAL ──────────────────────────────────────────────
+// Make hero visible immediately
+document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+
+      // Trigger answer badges in gap section
+      if (e.target.id === 'questionGrid' || e.target.closest('#gap')) {
+        document.querySelectorAll('#questionGrid .answer-badge').forEach(badge => {
+          const delay = parseInt(badge.dataset.delay) || 0;
+          setTimeout(() => badge.classList.add('show'), delay);
+        });
+      }
+
+      // Trigger CAPS comparison bars
+      if (e.target.id === 'comparisonSection' || e.target.closest('#compare')) {
+        setTimeout(() => {
+          document.querySelectorAll('.cap-score-fill').forEach(fill => {
+            fill.style.width = fill.dataset.width + '%';
+          });
+        }, 500);
+      }
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal, #questionGrid, #comparisonSection').forEach(el => observer.observe(el));
+
+// ─── NAV ACTIVE STATE ───────────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+let lastScroll = 0;
+const nav = document.getElementById('mainNav');
+
+window.addEventListener('scroll', () => {
+  // Hide/show nav
+  const curr = window.scrollY;
+  if (curr > lastScroll && curr > 200) nav.classList.add('hidden');
+  else nav.classList.remove('hidden');
+  lastScroll = curr;
+
+  // Active link
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 200;
+    if (curr >= top) current = s.getAttribute('id');
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+// ─── TAB SWITCHING ──────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+
+  // Redraw charts for newly visible tab
+  if (tab === 'org') {
+    setTimeout(() => { drawOrgCharts(); }, 100);
+  }
+}
+
+// ─── RADAR CHART (Custom Canvas) ────────────────────────────────
+function drawRadar(canvasId, data, labels, color) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+  const cx = w / 2;
+  const cy = h / 2;
+  const r = Math.min(cx, cy) - 90;
+  const n = data.length;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Grid
+  for (let ring = 1; ring <= 4; ring++) {
+    ctx.beginPath();
+    const rr = (r * ring) / 4;
+    for (let i = 0; i <= n; i++) {
+      const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+      const x = cx + rr * Math.cos(angle);
+      const y = cy + rr * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(245,240,235,0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+    ctx.strokeStyle = 'rgba(245,240,235,0.06)';
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  for (let i = 0; i <= n; i++) {
+    const idx = i % n;
+    const angle = (Math.PI * 2 * idx) / n - Math.PI / 2;
+    const val = data[idx] / 100;
+    const x = cx + r * val * Math.cos(angle);
+    const y = cy + r * val * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.fillStyle = color.replace(')', ',0.15)').replace('rgb', 'rgba');
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots and labels
+  for (let i = 0; i < n; i++) {
+    const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+    const val = data[i] / 100;
+    const x = cx + r * val * Math.cos(angle);
+    const y = cy + r * val * Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    // Label + Value stacked, always centered on the axis line
+    const labelDist = r + 35;
+    const lx = cx + labelDist * Math.cos(angle);
+    const ly = cy + labelDist * Math.sin(angle);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Value (bold, white)
+    ctx.fillStyle = '#F5F0EB';
+    ctx.font = 'bold 14px -apple-system, sans-serif';
+    ctx.fillText(data[i] + '%', lx, ly - 8);
+
+    // Label (muted, smaller)
+    ctx.fillStyle = '#7A756F';
+    ctx.font = '10px -apple-system, sans-serif';
+    ctx.fillText(labels[i], lx, ly + 8);
+  }
+}
+
+// ─── LINE CHARTS (Custom Canvas) ────────────────────────────────
+function drawLineChart(canvasId, datasets, xLabels) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const w = rect.width;
+  const h = rect.height;
+  const pad = { top: 20, right: 20, bottom: 30, left: 35 };
+  const cw = w - pad.left - pad.right;
+  const ch = h - pad.top - pad.bottom;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (ch * i) / 4;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(w - pad.right, y);
+    ctx.strokeStyle = 'rgba(245,240,235,0.04)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#7A756F';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(100 - i * 25, pad.left - 8, y + 3);
+  }
+
+  // X labels
+  if (xLabels) {
+    ctx.fillStyle = '#7A756F';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    xLabels.forEach((label, i) => {
+      const x = pad.left + (cw * i) / (xLabels.length - 1);
+      ctx.fillText(label, x, h - 8);
+    });
+  }
+
+  // Lines
+  datasets.forEach(ds => {
+    ctx.beginPath();
+    ds.data.forEach((val, i) => {
+      const x = pad.left + (cw * i) / (ds.data.length - 1);
+      const y = pad.top + ch - (ch * val) / 100;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = ds.color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Area fill
+    const last = ds.data.length - 1;
+    ctx.lineTo(pad.left + cw, pad.top + ch);
+    ctx.lineTo(pad.left, pad.top + ch);
+    ctx.closePath();
+    ctx.fillStyle = ds.color.replace(')', ',0.05)').replace('rgb', 'rgba');
+    ctx.fill();
+
+    // Dots
+    ds.data.forEach((val, i) => {
+      const x = pad.left + (cw * i) / (ds.data.length - 1);
+      const y = pad.top + ch - (ch * val) / 100;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = ds.color;
+      ctx.fill();
+    });
+  });
+}
+
+// ─── DRAW CHARTS ON LOAD ────────────────────────────────────────
+function initCharts() {
+  drawRadar('currentRadar',
+    [82, 78, 73, 68],
+    ['Detection', 'False Pos.', 'Timeliness', 'Attention'],
+    'rgb(23,119,231)'
+  );
+
+  drawLineChart('operatorLineChart', [
+    { data: [72, 75, 78, 74, 80, 83, 85, 88, 91, 89, 90, 91], color: 'rgb(23,119,231)' },
+    { data: [55, 52, 58, 60, 56, 62, 59, 63, 65, 61, 64, 65], color: 'rgb(34,197,94)' },
+    { data: [70, 73, 76, 78, 80, 82, 79, 83, 85, 84, 83, 84], color: 'rgb(245,158,11)' },
+    { data: [48, 45, 50, 47, 52, 49, 53, 50, 55, 51, 53, 52], color: 'rgb(239,68,68)' },
+  ], ['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12']);
+
+  drawLineChart('stressCorrelation', [
+    { data: [92, 90, 88, 85, 78, 72, 65, 58, 52, 48, 45, 42], color: 'rgb(23,119,231)' },
+    { data: [62, 65, 68, 72, 78, 82, 88, 92, 95, 98, 102, 108], color: 'rgb(239,68,68)' },
+  ], ['60','65','70','75','80','85','90','95','100','105','110','115']);
+}
+
+function drawOrgCharts() {
+  drawLineChart('orgShiftChart', [
+    { data: [78, 82, 68, 62], color: 'rgb(23,119,231)' },
+    { data: [75, 88, 55, 48], color: 'rgb(34,197,94)' },
+    { data: [82, 79, 72, 67], color: 'rgb(245,158,11)' },
+    { data: [65, 76, 52, 45], color: 'rgb(239,68,68)' },
+  ], ['Shift A', 'Shift B', 'Shift C', 'Shift D']);
+
+  drawLineChart('orgTrendChart', [
+    { data: [58, 62, 65, 68, 72, 74], color: 'rgb(34,197,94)' },
+  ], ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr']);
+}
+
+setTimeout(initCharts, 300);
+
+// ─── AI ANALYSIS SIMULATION ─────────────────────────────────────
+let aiRunning = false;
+
+function runAiAnalysis() {
+  if (aiRunning) return;
+  aiRunning = true;
+  const btn = document.getElementById('aiRunBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyzing...';
+
+  const terminal = document.getElementById('aiTerminal');
+  terminal.innerHTML = '';
+
+  const lines = [
+    { text: '<span class="prefix">▶</span> <span class="ai-dim">Loading session data... Operator: Ahmed Al-Rashid | Scenario: Embassy | Duration: 18:24</span>', delay: 0 },
+    { text: '<span class="prefix">▶</span> <span class="ai-dim">Processing eye tracking data... 14,832 fixation points across 8 cameras</span>', delay: 600 },
+    { text: '<span class="prefix">▶</span> <span class="ai-dim">Processing biometric stream... HR: 62-108 bpm | EDA: 0.8-4.2 µS | Temp: 32.1-33.8°C</span>', delay: 1200 },
+    { text: '<span class="prefix">▶</span> <span class="ai-dim">Processing action log... 23 marks, 4 alarms, 847 camera switches</span>', delay: 1800 },
+    { text: '', delay: 2200 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPS SCORES COMPUTED</span>', delay: 2400 },
+    { text: '  CAP-1 Sensemaking: <span style="color:var(--cap1);font-weight:700;">91</span> | Elite tier. Camera switch rate 40% above cohort average.', delay: 2800 },
+    { text: '  CAP-2 Communication: <span style="color:var(--cap2);font-weight:700;">65</span> | Below threshold. Alarm response protocol gaps detected.', delay: 3200 },
+    { text: '  CAP-3 Decision: <span style="color:var(--cap3);font-weight:700;">84</span> | Strong. False positive rate 0% in this session.', delay: 3600 },
+    { text: '  CAP-4 Recovery: <span style="color:var(--cap4);font-weight:700;">52</span> | <span class="ai-critical">CRITICAL.</span> Cascading degradation after missed Vehicle 1 detection.', delay: 4000 },
+    { text: '', delay: 4400 },
+    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Stress-Performance Cliff</span>', delay: 4600 },
+    { text: '  Detection accuracy drops <span class="ai-critical">34%</span> when HR exceeds 95 bpm (crossed at 07:42, 11:18, 14:55).', delay: 5000 },
+    { text: '  EDA spike at 07:41 preceded first missed detection by 12 seconds. <span class="ai-warning">Predictive marker identified.</span>', delay: 5400 },
+    { text: '', delay: 5800 },
+    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Post-Error Cascade</span>', delay: 6000 },
+    { text: '  After missing Vehicle 1 (07:42), tunnel vision on Camera 3 persisted for <span class="ai-critical">94 seconds</span>.', delay: 6400 },
+    { text: '  During cascade: missed 2 additional entities (Vehicle 3 return, pedestrian exchange).', delay: 6800 },
+    { text: '  Biometric recovery took 2m14s. Cognitive recovery (gaze normalization) took 3m08s.', delay: 7200 },
+    { text: '', delay: 7600 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPABILITY DECAY ANALYSIS</span>', delay: 7800 },
+    { text: '  CAP-1 Sensemaking: <span class="ai-insight">Stable.</span> No decay detected across 12 sessions.', delay: 8200 },
+    { text: '  CAP-4 Recovery: <span class="ai-critical">Declining.</span> 12% degradation over last 3 months. Current trajectory: below competency threshold in 6 weeks.', delay: 8600 },
+    { text: '', delay: 9000 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">PREDICTIVE READINESS ASSESSMENT</span>', delay: 9200 },
+    { text: '  Shift readiness contribution: <span class="ai-warning">CONDITIONAL.</span> Operator is an asset for detection but a liability during sustained incidents.', delay: 9600 },
+    { text: '  <span class="ai-insight">RECOMMENDATION:</span> Pair with Tariq N. (CAP-4: 88) for 4 mentored error-recovery scenarios. Projected CAP-4 improvement: 52 → 71.', delay: 10000 },
+    { text: '', delay: 10400 },
+    { text: '<span class="prefix">✓</span> Analysis complete. <span class="ai-dim">Report saved to ARK/Sessions/2026-04-09/Ahmed_Embassy/</span>', delay: 10600 },
+  ];
+
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'ai-line';
+      div.innerHTML = line.text;
+      terminal.appendChild(div);
+      requestAnimationFrame(() => div.classList.add('show'));
+      terminal.scrollTop = terminal.scrollHeight;
+    }, line.delay);
+  });
+
+  setTimeout(() => {
+    aiRunning = false;
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l2 0 0 12-2 0zM10 2l2 0 0 12-2 0z"/></svg> Re-run Analysis';
+  }, 11000);
+}
+
+// ─── ROI CALCULATOR ─────────────────────────────────────────────
+function updateROI() {
+  const ops = parseInt(document.getElementById('roiOperators').value);
+  const sessions = parseInt(document.getElementById('roiSessions').value);
+  const manual = parseInt(document.getElementById('roiManualHours').value);
+  const missed = parseInt(document.getElementById('roiMissedCost').value);
+
+  document.getElementById('roiOperatorsVal').textContent = ops;
+  document.getElementById('roiSessionsVal').textContent = sessions;
+  document.getElementById('roiManualHoursVal').textContent = manual + ' hrs';
+  document.getElementById('roiMissedCostVal').textContent = missed.toLocaleString();
+
+  // Calculations
+  const timeSaved = Math.round(ops * manual * 12 * 0.75); // 75% reduction
+  const capImprove = Math.min(35, Math.round(8 + sessions * 1.5 + (ops > 50 ? 5 : 0)));
+  const blindSpotReduction = Math.min(85, Math.round(40 + sessions * 3));
+  const riskAvoidance = Math.round(missed * (blindSpotReduction / 100) * 4 * (ops / 40)); // 4 potential incidents/year baseline
+
+  document.getElementById('roiTimeSaved').textContent = timeSaved.toLocaleString();
+  document.getElementById('roiCapImprove').textContent = '+' + capImprove + '%';
+  document.getElementById('roiRiskReduction').textContent = blindSpotReduction + '%';
+
+  if (riskAvoidance >= 1000000) {
+    document.getElementById('roiCostAvoid').textContent = 'AED ' + (riskAvoidance / 1000000).toFixed(1) + 'M';
+  } else {
+    document.getElementById('roiCostAvoid').textContent = 'AED ' + Math.round(riskAvoidance / 1000).toLocaleString() + 'K';
+  }
+}
+
+updateROI();
+
+// ─── HANDLE RESIZE ──────────────────────────────────────────────
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    initCharts();
+    if (document.getElementById('tab-org').classList.contains('active')) drawOrgCharts();
+  }, 200);
+});
+</script>
+
+</body>
+</html>
