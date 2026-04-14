@@ -1,9 +1,0 @@
-.DS_Store
-*.mp4
-MCC BUILD/
-create_pptx.py
-*.docx
-SESSION-HANDOFF.md
-.claude/
-MCC_ARK_Pitch_Archive.pptx
-*.pdf
