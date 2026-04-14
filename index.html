@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARK × MCC | Capability Intelligence Platform</title>
+<title>MCC | Capability Intelligence Platform</title>
 <style>
 /* ═══════════════════════════════════════════════════════════════
    DESIGN TOKENS
@@ -349,7 +349,7 @@ canvas.radar {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   GAP SECTION — QUESTION CARDS
+   GAP SECTION - QUESTION CARDS
    ═══════════════════════════════════════════════════════════════ */
 .question-grid {
   display: grid;
@@ -523,7 +523,7 @@ canvas.radar {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   THREE DASHBOARDS — TABS
+   THREE DASHBOARDS - TABS
    ═══════════════════════════════════════════════════════════════ */
 .tab-bar {
   display: flex;
@@ -1089,6 +1089,43 @@ canvas.radar {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   MR LECTURE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.mr-video-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 2rem 0;
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.08);
+}
+.mr-video-container video {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+.mr-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+.mr-feature-card {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.mr-feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(23,119,231,0.2);
+}
+.mr-feature-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.mr-feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.mr-feature-card p { font-size: 0.9rem; color: var(--muted-gray); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════════════
    PRINT
    ═══════════════════════════════════════════════════════════════ */
 @media print {
@@ -1102,16 +1139,18 @@ canvas.radar {
 
 <!-- ═══ NAVIGATION ═══ -->
 <nav id="mainNav">
-  <div class="nav-logo"><img src="1500x500.jpeg" alt="MCC — Monitoring & Control Centre" style="height:36px; width:auto; vertical-align:middle;"></div>
+  <div class="nav-logo"><img src="mcc_logo_extracted.png" alt="MCC - Monitoring and Control Center" style="height:36px; width:auto; vertical-align:middle;"></div>
   <div class="nav-links">
     <a href="#hero">Home</a>
     <a href="#current">Current</a>
     <a href="#gap">Next Step</a>
     <a href="#caps">CAPS</a>
     <a href="#dashboards">Dashboards</a>
+    <a href="#standards">Standards</a>
     <a href="#ai">AI Engine</a>
     <a href="#compare">Compare</a>
     <a href="#roi">ROI</a>
+    <a href="#mr-lecture">MR Lecture</a>
     <a href="#roadmap">Roadmap</a>
   </div>
 </nav>
@@ -1121,12 +1160,13 @@ canvas.radar {
 <!-- ═══════════════════════════════════════════════════════════════
      SECTION 1: HERO
      ═══════════════════════════════════════════════════════════════ -->
-<section id="hero">
+<section id="hero" style="background: url('visuals/hero-control-room.png') center center / cover no-repeat; position:relative;">
+  <div style="position:absolute; inset:0; background: linear-gradient(to bottom, rgba(9,9,9,0.6), rgba(9,9,9,0.85));"></div>
   <div class="section-inner" style="text-align:center; position:relative; z-index:1;">
-    <img src="Untitled design-2.png" alt="Abu Dhabi Crest" class="reveal" style="width:70px; height:auto; display:block; margin:0 auto 1.5rem; border-radius:50%;">
-    <div class="hero-badge reveal">MCC × ARK Integration: Phase 2 Proposal</div>
+    <img src="mcc_logo_extracted.png" alt="MCC - Monitoring and Control Center" class="reveal" style="width:100px; height:auto; display:block; margin:0 auto 1.5rem;">
+    <div class="hero-badge reveal">MCC Phase 2: Capability Intelligence Proposal</div>
     <h1 class="hero-title reveal reveal-delay-1">What if you could<br><span class="highlight">read your operators' minds?</span></h1>
-    <p class="hero-sub reveal reveal-delay-2">You built a world-class VR training system. Now it's time to unlock what it's really measuring. Not just performance, but <strong>human capability</strong>.</p>
+    <p class="hero-sub reveal reveal-delay-2">Your VR training system captures everything. Now make it <strong>mean something</strong>.</p>
   </div>
   <div class="scroll-prompt">
     <span>Scroll to explore</span>
@@ -1139,9 +1179,10 @@ canvas.radar {
      ═══════════════════════════════════════════════════════════════ -->
 <section id="current">
   <div class="section-inner" style="text-align:center;">
+    <img src="visuals/vr-training-operator.png" alt="VR Training Operator with biometric monitoring" class="reveal" style="width:100%; max-width:900px; border-radius:16px; margin:0 auto 2.5rem; display:block; border:1px solid rgba(245,240,235,0.08);">
     <div class="section-label reveal">What We've Built</div>
     <h2 class="reveal">The MCC VR Training System<br>is <span class="highlight">already world-class.</span></h2>
-    <p class="subtitle reveal reveal-delay-1">A fully on-premises, biometric-integrated VR CCTV training platform. 5 scenarios. 8 operator stations. Real-time eye tracking, stress monitoring, and AI-driven performance reports.</p>
+    <p class="subtitle reveal reveal-delay-1">On-premises. Air-gapped. Biometric-integrated. Built to your surveillance standards across all 4 coverage levels.</p>
 
     <div class="stat-grid reveal reveal-delay-2">
       <div class="stat-card">
@@ -1160,6 +1201,10 @@ canvas.radar {
         <div class="stat-number highlight">4</div>
         <div class="stat-label">Scoring Dimensions</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-number highlight">4</div>
+        <div class="stat-label">MCC Coverage Levels</div>
+      </div>
     </div>
 
     <div class="chart-container reveal reveal-delay-3">
@@ -1167,7 +1212,7 @@ canvas.radar {
     </div>
 
     <div class="key-message reveal reveal-delay-3">
-      This is an exceptional training system. But right now, it's measuring <strong>performance</strong>.<br>It's not yet measuring <strong>capability</strong>. There's a critical difference.
+      The system measures <strong>performance</strong>. The next step: measuring <strong>capability</strong>.
     </div>
   </div>
 </section>
@@ -1178,67 +1223,71 @@ canvas.radar {
 <section id="gap">
   <div class="section-inner">
     <div class="section-label reveal">The Next Evolution</div>
-    <h2 class="reveal">An operator scores <span class="highlight">82</span>.<br>Now imagine knowing <em>why</em>.</h2>
+    <h2 class="reveal">An operator scores <span class="highlight">82</span>.<br>What does that actually tell you?</h2>
 
     <div class="question-grid reveal reveal-delay-1" id="questionGrid">
       <div class="question-card">
         <div class="q-text">How will they perform under <strong>real-world stress</strong> beyond the simulation?</div>
-        <div class="answer-badge answer-yes" data-delay="800">ARK can tell you</div>
+        <div class="answer-badge answer-yes" data-delay="800">CAPS can tell you</div>
       </div>
       <div class="question-card">
         <div class="q-text">Can they detect a <strong>new threat type</strong> they haven't trained on?</div>
-        <div class="answer-badge answer-yes" data-delay="1200">ARK can predict it</div>
+        <div class="answer-badge answer-yes" data-delay="1200">CAPS can predict it</div>
       </div>
       <div class="question-card">
         <div class="q-text">Are their capabilities <strong>growing or decaying</strong> between sessions?</div>
-        <div class="answer-badge answer-yes" data-delay="1600">ARK tracks it</div>
+        <div class="answer-badge answer-yes" data-delay="1600">CAPS tracks it</div>
       </div>
       <div class="question-card">
         <div class="q-text">After a mistake, do they <strong>recover</strong> or <strong>cascade</strong>?</div>
-        <div class="answer-badge answer-yes" data-delay="2000">ARK reveals it</div>
+        <div class="answer-badge answer-yes" data-delay="2000">CAPS reveals it</div>
+      </div>
+      <div class="question-card">
+        <div class="q-text">Did they meet <strong>Identification-level attention</strong> at the entrance when it mattered?</div>
+        <div class="answer-badge answer-yes" data-delay="2400">CAPS validates it</div>
       </div>
     </div>
 
     <div class="key-message reveal reveal-delay-2">
-      The system already captures <strong>world-class data</strong>. The next step is turning scores into <strong>capability intelligence</strong>.<br>
-      <span class="highlight" style="font-size:1.2rem; display:block; margin-top:0.75rem;">That's what ARK unlocks.</span>
+      A score tells you what happened. <strong>Capability intelligence</strong> tells you what will happen next.
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 4: ARK CAPS FRAMEWORK
+     SECTION 4: CAPS FRAMEWORK
      ═══════════════════════════════════════════════════════════════ -->
 <section id="caps">
   <div class="section-inner">
-    <div class="section-label reveal">The ARK CAPS Framework</div>
+    <div class="section-label reveal">The CAPS Framework</div>
     <h2 class="reveal">Four capabilities.<br><span class="highlight">The operating system of human performance.</span></h2>
-    <p class="subtitle reveal reveal-delay-1">The CAPS framework maps everything your system already collects into four measurable dimensions of operator capability.</p>
+    <p class="subtitle reveal reveal-delay-1">Your system already collects the data. CAPS organizes it into what matters.</p>
+    <img src="visuals/caps-framework-visual.png" alt="CAPS Framework - four capability dimensions" class="reveal reveal-delay-2" style="width:100%; max-width:800px; border-radius:16px; margin:1.5rem auto; display:block;">
 
     <div class="caps-grid">
       <div class="cap-card reveal reveal-delay-1" data-cap="1">
         <div class="cap-id">CAP-1</div>
         <div class="cap-name">Sensemaking</div>
         <div class="cap-question">"Can they read the situation correctly?"</div>
-        <p class="cap-maps"><strong>Maps to:</strong> Detection Accuracy + Attention/Gaze + camera switching patterns + fixation distribution</p>
+        <p class="cap-maps"><strong>From your data:</strong> Eye tracking, gaze distribution, camera switching patterns</p>
       </div>
       <div class="cap-card reveal reveal-delay-2" data-cap="2">
         <div class="cap-id">CAP-2</div>
         <div class="cap-name">Communication & Coordination</div>
         <div class="cap-question">"Can they relay information under pressure?"</div>
-        <p class="cap-maps"><strong>Maps to:</strong> Alarm handling + marking precision + response protocols + supervisor communication timing</p>
+        <p class="cap-maps"><strong>From your data:</strong> Alarm handling, marking precision, response timing</p>
       </div>
       <div class="cap-card reveal reveal-delay-3" data-cap="3">
         <div class="cap-id">CAP-3</div>
         <div class="cap-name">Decision Under Pressure</div>
         <div class="cap-question">"Right call, high stakes, short time?"</div>
-        <p class="cap-maps"><strong>Maps to:</strong> Timeliness + False Positive avoidance + stress-correlated decision quality + HR/EDA at decision points</p>
+        <p class="cap-maps"><strong>From your data:</strong> Reaction speed, false positive rate, biometrics at decision points</p>
       </div>
       <div class="cap-card reveal reveal-delay-4" data-cap="4">
         <div class="cap-id">CAP-4</div>
         <div class="cap-name">Recovery & Resilience</div>
         <div class="cap-question">"Can they regroup after errors?"</div>
-        <p class="cap-maps"><strong>Maps to:</strong> Performance after missed detections + distraction recovery time + biometric recovery curves + tunnel vision recovery</p>
+        <p class="cap-maps"><strong>From your data:</strong> Post-error performance, recovery time, biometric stabilization</p>
       </div>
     </div>
 
@@ -1257,16 +1306,20 @@ canvas.radar {
         <div class="fb-label">Actions</div>
         <div class="fb-value">Marks, alarms, PTZ</div>
       </div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">
+        <div class="fb-label">MCC Standards</div>
+        <div class="fb-value">4 coverage levels</div>
+      </div>
       <div class="flow-arrow">→</div>
       <div class="flow-box" style="border-color: rgba(23,119,231,0.3); background: rgba(23,119,231,0.08);">
-        <div class="fb-label" style="color: var(--brand-blue);">ARK CAPS Engine</div>
+        <div class="fb-label" style="color: var(--brand-blue);">CAPS Engine</div>
         <div class="fb-value" style="color: var(--brand-blue);">4 Capability Scores</div>
       </div>
     </div>
 
     <div class="key-message reveal">
-      You're <strong>already collecting the data</strong>. Every eye movement, every heartbeat, every decision is recorded.<br>
-      ARK makes it <strong>speak</strong>.
+      You're already collecting the data. CAPS makes it <strong>speak</strong>.
     </div>
   </div>
 </section>
@@ -1326,7 +1379,7 @@ canvas.radar {
         </div>
         <div class="ai-rec" style="margin-top:1.5rem;">
           <div class="ai-rec-label">AI Insight</div>
-          Ahmed's sensemaking is elite-tier. He scans cameras 40% more frequently than peers. But his <strong>recovery after a missed detection collapses</strong>: accuracy drops 38% for 90 seconds after any error. Focus training: error recovery drills with progressive distraction.
+          Ahmed scans cameras 40% more than peers. But after any error, his accuracy <strong>drops 38% for 90 seconds</strong>. Recommended: error recovery drills.
         </div>
       </div>
     </div>
@@ -1396,7 +1449,7 @@ canvas.radar {
         </div>
         <div class="ai-rec">
           <div class="ai-rec-label">Supervisor Alert</div>
-          <strong>Hassan R.</strong> is below threshold across all four capabilities. Recommend immediate intervention: paired mentoring with Saeed F. (highest Decision score: 92). <strong>Omar S.</strong> has a Communication gap (48). Schedule targeted alarm-handling drills before next shift rotation.
+          <strong>Hassan R.</strong> is below threshold across all four capabilities. Pair with Saeed F. (Decision: 92). <strong>Omar S.</strong> has a Communication gap (48). Schedule alarm-handling drills before next rotation.
         </div>
       </div>
     </div>
@@ -1442,32 +1495,81 @@ canvas.radar {
         </div>
         <div class="ai-rec" style="margin-top:1.5rem;">
           <div class="ai-rec-label">Strategic Insight</div>
-          <strong>Recovery & Resilience (CAP-4) is a systemic weakness.</strong> It's the lowest capability across all shifts (avg: 58). This isn't an individual training problem; it's an organizational gap. Recommend: integrate error-recovery scenarios into every training session as a mandatory component, not an optional module. Projected impact: +15% CAP-4 improvement within 8 weeks.
+          <strong>Recovery (CAP-4) is a systemic weakness</strong> across all shifts (avg: 58). This is an organizational gap, not individual. Make error-recovery scenarios mandatory. Projected: +15% improvement in 8 weeks.
         </div>
       </div>
     </div>
 
     <div class="key-message reveal" style="margin-top:2rem;">
-      Three views. One truth. Every level of leadership gets <strong>exactly what they need</strong> to make decisions.
+      One truth. Three views. The right insight for every level of decision.
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 6: AI ANALYSIS ENGINE
+     SECTION 6: STANDARDS COMPLIANCE INTELLIGENCE
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="standards">
+  <div class="section-inner">
+    <div class="section-label reveal">Standards Compliance Intelligence</div>
+    <h2 class="reveal">Your standards.<br><span class="highlight">Our intelligence.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Your surveillance framework defines 4 coverage levels. We measure whether your operators actually deliver them under pressure.</p>
+    <img src="visuals/coverage-levels-visual.png" alt="Coverage levels - Identification, Recognition, Detection zones" class="reveal reveal-delay-2" style="width:100%; max-width:900px; border-radius:16px; margin:1.5rem auto; display:block; border:1px solid rgba(245,240,235,0.08);">
+
+    <div class="caps-grid reveal reveal-delay-2">
+      <div class="cap-card" data-cap="1" style="cursor:default;">
+        <div class="cap-id">Identification Level</div>
+        <div class="cap-name" style="font-size:1.1rem;">500 px/m | 25 fps</div>
+        <div class="cap-question">"Can the operator identify an unknown person at the entrance?"</div>
+        <p class="cap-maps"><strong>Entrances, exits, control rooms.</strong> CAPS validates whether the operator's attention meets this standard when it matters most.</p>
+      </div>
+      <div class="cap-card" data-cap="2" style="cursor:default;">
+        <div class="cap-id">Recognition Level</div>
+        <div class="cap-name" style="font-size:1.1rem;">125 px/m | 12 fps</div>
+        <div class="cap-question">"Can the operator distinguish a known person in the lobby?"</div>
+        <p class="cap-maps"><strong>Lobbies, cash areas, corridors.</strong> Sustained attention across multiple feeds at recognition-grade density.</p>
+      </div>
+      <div class="cap-card" data-cap="3" style="cursor:default;">
+        <div class="cap-id">Detection Level</div>
+        <div class="cap-name" style="font-size:1.1rem;">30 px/m | 12 fps</div>
+        <div class="cap-question">"Can the operator detect movement at the perimeter?"</div>
+        <p class="cap-maps"><strong>Perimeters, parking, landscape.</strong> The minimum standard. Below this under stress, operators are functionally blind.</p>
+      </div>
+      <div class="cap-card" data-cap="4" style="cursor:default;">
+        <div class="cap-id">Vehicle View Level</div>
+        <div class="cap-name" style="font-size:1.1rem;">500 px/m | 25 fps</div>
+        <div class="cap-question">"Can the operator read the plate at the gate?"</div>
+        <p class="cap-maps"><strong>Vehicle entrances and exits.</strong> Split-second identification under time pressure at access points.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:2rem 0; font-size:0.85rem; color:var(--muted-gray); line-height:1.8;" class="reveal reveal-delay-3">
+      <strong style="color:var(--warm-white);">25</strong> entity categories. <strong style="color:var(--warm-white);">3</strong> compliance groups. <strong style="color:var(--warm-white);">48</strong> general specifications. <strong style="color:var(--warm-white);">54</strong> technical requirements.<br>
+      The system doesn't just score operators. It validates whether they meet your own standards under pressure.
+    </div>
+
+    <div class="key-message reveal reveal-delay-3">
+      An operator scoring 82 may be failing at entrances while exceeding perimeter requirements. The score hides this. <span class="highlight">CAPS tells you which.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 7: AI ANALYSIS ENGINE
      ═══════════════════════════════════════════════════════════════ -->
 <section id="ai">
   <div class="section-inner">
     <div class="section-label reveal">AI Analysis Engine</div>
     <h2 class="reveal">Feed it a session.<br><span class="highlight">Watch it think.</span></h2>
-    <p class="subtitle reveal reveal-delay-1">ARK's AI doesn't just calculate scores. It finds patterns humans can't see. Correlations between stress, attention, decisions, and capability that reveal who is truly ready.</p>
+    <p class="subtitle reveal reveal-delay-1">It finds patterns no human can see. Stress cliffs. Post-error cascades. Capability decay.</p>
+    <img src="visuals/ai-engine-visual.png" alt="AI Analysis Engine with eye tracking and capability scoring" class="reveal reveal-delay-2" style="width:100%; max-width:800px; border-radius:16px; margin:1.5rem auto 0; display:block;">
 
     <div class="ai-terminal reveal reveal-delay-2">
       <div class="ai-terminal-header">
         <div class="ai-dot ai-dot-red"></div>
         <div class="ai-dot ai-dot-yellow"></div>
         <div class="ai-dot ai-dot-green"></div>
-        <div class="ai-terminal-title">ARK CAPS Intelligence Engine: Session Analysis</div>
+        <div class="ai-terminal-title">CAPS Intelligence Engine: Session Analysis</div>
       </div>
       <div class="ai-terminal-body" id="aiTerminal">
         <div class="ai-line" data-order="0"><span class="ai-dim">// Click "Run Analysis" to process a sample operator session</span></div>
@@ -1480,7 +1582,7 @@ canvas.radar {
     </button>
 
     <div class="key-message reveal" style="margin-top:2rem;">
-      AI that doesn't just report. AI that <strong>reveals what was invisible</strong>. The hidden correlations between biology, behavior, and capability.
+      AI that doesn't report. AI that <strong>reveals what was invisible</strong>.
     </div>
   </div>
 </section>
@@ -1495,7 +1597,7 @@ canvas.radar {
 
     <div class="comparison reveal reveal-delay-1" id="comparisonSection">
       <div class="compare-panel compare-before">
-        <div class="compare-label">Before ARK</div>
+        <div class="compare-label">Before CAPS</div>
         <div class="compare-score" style="color:var(--muted-gray);">78</div>
         <div class="compare-verdict" style="color:var(--muted-gray);">"Competent." End of story.</div>
         <div style="font-size:0.85rem; color:var(--muted-gray); line-height:1.8;">
@@ -1508,7 +1610,7 @@ canvas.radar {
       </div>
 
       <div class="compare-panel compare-after">
-        <div class="compare-label">After ARK</div>
+        <div class="compare-label">After CAPS</div>
         <div class="compare-score" style="color:var(--warm-white);">CAPS Profile</div>
 
         <div class="cap-score-row">
@@ -1534,13 +1636,13 @@ canvas.radar {
 
         <div class="ai-rec">
           <div class="ai-rec-label">AI Recommendation</div>
-          <strong>Focus on recovery drills.</strong> This operator performs exceptionally until their first mistake, then performance cascades. CAP-4 (Recovery) is the single point of failure. Pair with Tariq N. (CAP-4: 88) for mentored error-recovery scenarios. Projected improvement: CAP-4 → 71 within 6 sessions.
+          <strong>Focus: recovery drills.</strong> This operator excels until the first mistake, then cascades. Pair with Tariq N. (CAP-4: 88). Projected: CAP-4 52 → 71 in 6 sessions.
         </div>
       </div>
     </div>
 
     <div class="key-message reveal reveal-delay-2">
-      The score said <em>"competent."</em> ARK found a <strong>hidden vulnerability</strong> that could mean the difference between a controlled incident and a cascading failure.
+      The score said <em>"competent."</em> CAPS found a <strong>hidden vulnerability</strong> that changes everything.
     </div>
   </div>
 </section>
@@ -1551,7 +1653,7 @@ canvas.radar {
 <section id="roi">
   <div class="section-inner">
     <div class="section-label reveal">Return on Investment</div>
-    <h2 class="reveal">The numbers behind<br><span class="highlight">capability intelligence.</span></h2>
+    <h2 class="reveal">The cost of<br><span class="highlight">not knowing.</span></h2>
 
     <div class="roi-controls reveal reveal-delay-1">
       <div class="roi-input-group">
@@ -1596,40 +1698,91 @@ canvas.radar {
     </div>
 
     <div class="key-message reveal" style="margin-top:2rem;">
-      Every operator whose hidden weakness goes undetected is a <strong>liability you can't see</strong>. ARK makes it visible before it becomes an incident.
+      Every hidden weakness is a liability. CAPS makes it visible <strong>before</strong> it becomes an incident.
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 9: IMPLEMENTATION ROADMAP
+     SECTION 10: MR AI LECTURER
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="mr-lecture">
+  <div class="section-inner">
+    <div class="section-label reveal">Mixed Reality Training</div>
+    <h2 class="reveal">Beyond screens.<br><span class="highlight">Into the room.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Mixed Reality transforms how operators learn, practice, and retain. The same platform that measures capability can now teach it.</p>
+    <img src="visuals/mr-training-visual.png" alt="Mixed Reality team training with holographic camera layouts" class="reveal reveal-delay-2" style="width:100%; max-width:900px; border-radius:16px; margin:1.5rem auto; display:block; border:1px solid rgba(245,240,235,0.08);">
+
+    <div class="mr-video-container reveal reveal-delay-2">
+      <video controls preload="metadata" playsinline>
+        <source src="New MR Test.mp4" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
+    </div>
+
+    <div class="mr-features">
+      <div class="mr-feature-card reveal reveal-delay-1">
+        <div class="mr-feature-icon">&#127919;</div>
+        <h3>Consistent Delivery</h3>
+        <p>Every operator gets the same quality instruction, every time. No trainer variance. No knowledge gaps between shifts.</p>
+      </div>
+      <div class="mr-feature-card reveal reveal-delay-2">
+        <div class="mr-feature-icon">&#128225;</div>
+        <h3>3D Spatial Demonstrations</h3>
+        <p>Camera placement, coverage zones, and blind spots rendered in the operator's actual space. See your 4 coverage levels in three dimensions.</p>
+      </div>
+      <div class="mr-feature-card reveal reveal-delay-3">
+        <div class="mr-feature-icon">&#129309;</div>
+        <h3>22-Device Co-Located MR</h3>
+        <p>Entire teams train together in shared mixed reality. See the same threats, coordinate responses in real time across all 8 operator stations.</p>
+      </div>
+      <div class="mr-feature-card reveal reveal-delay-4">
+        <div class="mr-feature-icon">&#129302;</div>
+        <h3>Future: AI Lecturer</h3>
+        <p>AI-driven instructor that adapts to individual operator CAPS profiles, focusing on their specific capability gaps. Personalized training at scale.</p>
+      </div>
+    </div>
+
+    <div class="key-message reveal">
+      MR lecture modules align directly with CAPS profiles. An operator weak in <strong>CAP-4 Recovery</strong> gets targeted error-recovery scenarios in mixed reality. The system that <strong>measures</strong> capability now <strong>teaches</strong> it.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 11: IMPLEMENTATION ROADMAP
      ═══════════════════════════════════════════════════════════════ -->
 <section id="roadmap">
   <div class="section-inner">
     <div class="section-label reveal">Implementation Roadmap</div>
-    <h2 class="reveal">You've built the foundation.<br><span class="highlight">ARK is the upgrade, not a rebuild.</span></h2>
-    <p class="subtitle reveal reveal-delay-1">Zero disruption to current operations. ARK layers on top of everything you already have.</p>
+    <h2 class="reveal">You've built the foundation.<br><span class="highlight">CAPS is the upgrade, not a rebuild.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Zero disruption to current operations. CAPS layers on top of everything you already have.</p>
 
     <div class="roadmap reveal reveal-delay-2">
       <div class="roadmap-item">
         <div class="roadmap-phase">Phase 1 <span class="roadmap-duration">4 Weeks</span></div>
         <div class="roadmap-title">CAPS Data Mapping</div>
-        <div class="roadmap-desc">Map all existing MCC data streams (eye tracking, biometrics, operator actions, alarm responses) into the four-CAP framework. Define SubCAP metrics specific to MCC scenarios. Configure scoring algorithms. <strong>Zero changes to the operator experience.</strong></div>
+        <div class="roadmap-desc">Connect your existing data streams to the four-CAP framework. <strong>Zero changes to the operator experience.</strong></div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-phase">Phase 2 <span class="roadmap-duration">6 Weeks</span></div>
         <div class="roadmap-title">Dashboard Integration</div>
-        <div class="roadmap-desc">Deploy the three-tier ARK dashboard alongside existing supervisor tools. Operator capability profiles, supervisor team heat maps, and organization readiness posture. All running from the same on-premises servers. <strong>All data stays local.</strong></div>
+        <div class="roadmap-desc">Three-tier dashboards for operators, supervisors, and leadership. Same on-premises servers. <strong>All data stays local.</strong></div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-phase">Phase 3 <span class="roadmap-duration">4 Weeks</span></div>
         <div class="roadmap-title">AI Analysis Engine</div>
-        <div class="roadmap-desc">Activate pattern detection, capability decay tracking, stress-performance correlation, and predictive readiness scoring. AI runs on-premises. No cloud, no external data exposure. <strong>The system starts learning from every session.</strong></div>
+        <div class="roadmap-desc">Pattern detection, predictive readiness, capability decay tracking. AI runs on-premises. <strong>The system learns from every session.</strong></div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-phase">Phase 4 <span class="roadmap-duration">Ongoing</span></div>
         <div class="roadmap-title">Continuous Capability Intelligence</div>
-        <div class="roadmap-desc">Monthly capability reports, shift readiness confidence scores, strategic workforce planning. The system gets smarter with every session. Capability benchmarks evolve with your organization. <strong>Training becomes a living intelligence system.</strong></div>
+        <div class="roadmap-desc">Monthly reports, shift readiness scores, workforce planning. Benchmarks evolve with your organization. <strong>Training becomes a living intelligence system.</strong></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-phase">Phase 5 <span class="roadmap-duration">8 Weeks</span></div>
+        <div class="roadmap-title">MR Lecture Integration</div>
+        <div class="roadmap-desc">MR training aligned with CAPS profiles. AI-driven personalized instruction. 22-device co-located sessions. <strong>The system that measures capability now teaches it.</strong></div>
       </div>
     </div>
   </div>
@@ -1638,18 +1791,43 @@ canvas.radar {
 <!-- ═══════════════════════════════════════════════════════════════
      SECTION 10: CLOSING
      ═══════════════════════════════════════════════════════════════ -->
-<section id="closing">
-  <div class="section-inner">
+<section id="closing" style="background: url('visuals/closing-skyline.png') center center / cover no-repeat; position:relative;">
+  <div style="position:absolute; inset:0; background: linear-gradient(to bottom, rgba(9,9,9,0.75), rgba(9,9,9,0.9));"></div>
+  <div class="section-inner" style="position:relative; z-index:1;">
     <div class="section-divider"></div>
-    <h2 class="reveal">MCC didn't just buy training.<br><span class="highlight">MCC built a capability measurement infrastructure.</span></h2>
-    <p class="closing-tagline reveal reveal-delay-1">The question isn't whether to integrate ARK.<br>It's how much longer you want to fly <strong>without instruments</strong>.</p>
-    <div class="reveal reveal-delay-2">
+    <div class="section-label reveal">The Bigger Picture</div>
+    <h2 class="reveal">This system is the <span class="highlight">first of its kind in the world.</span></h2>
+    <p class="closing-tagline reveal reveal-delay-1" style="max-width:750px;">No country has a VR-based, biometric-integrated CCTV operator training platform with AI-driven capability measurement. <strong>MCC built it first.</strong></p>
+
+    <div class="stat-grid reveal reveal-delay-2" style="max-width:900px; margin:2rem auto;">
+      <div class="stat-card">
+        <div class="stat-number highlight" style="font-size:1.5rem;">First in the World</div>
+        <div class="stat-label">VR + Biometrics + AI Capability Measurement</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight" style="font-size:1.5rem;">Uncatchable Moat</div>
+        <div class="stat-label">Phase 2 puts MCC years ahead of anyone who tries to follow</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight" style="font-size:1.5rem;">Research Platform</div>
+        <div class="stat-label">PhD-grade case studies for academic thesis research</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number highlight" style="font-size:1.5rem;">National Pride</div>
+        <div class="stat-label">A UAE-built standard the world will reference</div>
+      </div>
+    </div>
+
+    <p class="closing-tagline reveal reveal-delay-3" style="max-width:700px; font-size:clamp(0.95rem, 2vw, 1.15rem);">This Phase 2 upgrade doesn't just improve training. It creates a <strong>living research platform</strong> that generates publishable data, attracts PhD researchers, and positions MCC as the global reference point for human capability measurement in security operations.</p>
+
+    <p class="closing-tagline reveal reveal-delay-3" style="max-width:650px; margin-top:1.5rem;">The question isn't whether to upgrade.<br>It's how much longer you want to fly <strong>without instruments</strong>.</p>
+    <div class="reveal reveal-delay-4">
       <button class="cta-btn" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
         Let's Build Phase 2 →
       </button>
     </div>
     <div style="margin-top:4rem; text-align:center;">
-      <img src="1500x500.jpeg" alt="MCC — Monitoring & Control Centre" style="width:200px; height:auto; margin-bottom:1rem; opacity:0.7;">
+      <img src="mcc_logo_extracted.png" alt="MCC - Monitoring and Control Center" style="width:200px; height:auto; margin-bottom:1rem; opacity:0.7;">
       <div style="font-size:0.7rem; color:var(--muted-gray); letter-spacing:0.1em;">
         MCC | CONFIDENTIAL<br>
         Prepared April 2026
@@ -1955,30 +2133,35 @@ function runAiAnalysis() {
     { text: '<span class="prefix">▶</span> <span class="ai-dim">Processing biometric stream... HR: 62-108 bpm | EDA: 0.8-4.2 µS | Temp: 32.1-33.8°C</span>', delay: 1200 },
     { text: '<span class="prefix">▶</span> <span class="ai-dim">Processing action log... 23 marks, 4 alarms, 847 camera switches</span>', delay: 1800 },
     { text: '', delay: 2200 },
-    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPS SCORES COMPUTED</span>', delay: 2400 },
-    { text: '  CAP-1 Sensemaking: <span style="color:var(--cap1);font-weight:700;">91</span> | Elite tier. Camera switch rate 40% above cohort average.', delay: 2800 },
-    { text: '  CAP-2 Communication: <span style="color:var(--cap2);font-weight:700;">65</span> | Below threshold. Alarm response protocol gaps detected.', delay: 3200 },
-    { text: '  CAP-3 Decision: <span style="color:var(--cap3);font-weight:700;">84</span> | Strong. False positive rate 0% in this session.', delay: 3600 },
-    { text: '  CAP-4 Recovery: <span style="color:var(--cap4);font-weight:700;">52</span> | <span class="ai-critical">CRITICAL.</span> Cascading degradation after missed Vehicle 1 detection.', delay: 4000 },
-    { text: '', delay: 4400 },
-    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Stress-Performance Cliff</span>', delay: 4600 },
-    { text: '  Detection accuracy drops <span class="ai-critical">34%</span> when HR exceeds 95 bpm (crossed at 07:42, 11:18, 14:55).', delay: 5000 },
-    { text: '  EDA spike at 07:41 preceded first missed detection by 12 seconds. <span class="ai-warning">Predictive marker identified.</span>', delay: 5400 },
-    { text: '', delay: 5800 },
-    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Post-Error Cascade</span>', delay: 6000 },
-    { text: '  After missing Vehicle 1 (07:42), tunnel vision on Camera 3 persisted for <span class="ai-critical">94 seconds</span>.', delay: 6400 },
-    { text: '  During cascade: missed 2 additional entities (Vehicle 3 return, pedestrian exchange).', delay: 6800 },
-    { text: '  Biometric recovery took 2m14s. Cognitive recovery (gaze normalization) took 3m08s.', delay: 7200 },
+    { text: '<span class="prefix">▶</span> <span class="ai-dim">Checking MCC coverage level compliance... 4 levels validated against operational standards</span>', delay: 2400 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPS SCORES COMPUTED</span>', delay: 2800 },
+    { text: '  CAP-1 Sensemaking: <span style="color:var(--cap1);font-weight:700;">91</span> | Elite tier. Camera switch rate 40% above cohort average.', delay: 3200 },
+    { text: '  CAP-2 Communication: <span style="color:var(--cap2);font-weight:700;">65</span> | Below threshold. Alarm response protocol gaps detected.', delay: 3600 },
+    { text: '  CAP-3 Decision: <span style="color:var(--cap3);font-weight:700;">84</span> | Strong. False positive rate 0% in this session.', delay: 4000 },
+    { text: '  CAP-4 Recovery: <span style="color:var(--cap4);font-weight:700;">52</span> | <span class="ai-critical">CRITICAL.</span> Cascading degradation after missed Vehicle 1 detection.', delay: 4400 },
+    { text: '', delay: 4800 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">COVERAGE LEVEL COMPLIANCE</span>', delay: 5000 },
+    { text: '  Identification standard (500 px/m, 25fps): <span class="ai-insight">MET</span> during Vehicle 1 approach at entrance gate.', delay: 5400 },
+    { text: '  Post-error period: attention degraded to <span class="ai-critical">Detection-level equivalent</span> (30 px/m) for 94 seconds. Operator failed Recognition standard at lobby cameras.', delay: 5800 },
+    { text: '', delay: 6200 },
+    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Stress-Performance Cliff</span>', delay: 6400 },
+    { text: '  Detection accuracy drops <span class="ai-critical">34%</span> when HR exceeds 95 bpm (crossed at 07:42, 11:18, 14:55).', delay: 6800 },
+    { text: '  EDA spike at 07:41 preceded first missed detection by 12 seconds. <span class="ai-warning">Predictive marker identified.</span>', delay: 7200 },
     { text: '', delay: 7600 },
-    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPABILITY DECAY ANALYSIS</span>', delay: 7800 },
-    { text: '  CAP-1 Sensemaking: <span class="ai-insight">Stable.</span> No decay detected across 12 sessions.', delay: 8200 },
-    { text: '  CAP-4 Recovery: <span class="ai-critical">Declining.</span> 12% degradation over last 3 months. Current trajectory: below competency threshold in 6 weeks.', delay: 8600 },
-    { text: '', delay: 9000 },
-    { text: '<span class="prefix">◆</span> <span class="ai-insight">PREDICTIVE READINESS ASSESSMENT</span>', delay: 9200 },
-    { text: '  Shift readiness contribution: <span class="ai-warning">CONDITIONAL.</span> Operator is an asset for detection but a liability during sustained incidents.', delay: 9600 },
-    { text: '  <span class="ai-insight">RECOMMENDATION:</span> Pair with Tariq N. (CAP-4: 88) for 4 mentored error-recovery scenarios. Projected CAP-4 improvement: 52 → 71.', delay: 10000 },
-    { text: '', delay: 10400 },
-    { text: '<span class="prefix">✓</span> Analysis complete. <span class="ai-dim">Report saved to ARK/Sessions/2026-04-09/Ahmed_Embassy/</span>', delay: 10600 },
+    { text: '<span class="prefix">◆</span> <span class="ai-warning">PATTERN DETECTED: Post-Error Cascade</span>', delay: 7800 },
+    { text: '  After missing Vehicle 1 (07:42), tunnel vision on Camera 3 persisted for <span class="ai-critical">94 seconds</span>.', delay: 8200 },
+    { text: '  During cascade: missed 2 additional entities (Vehicle 3 return, pedestrian exchange).', delay: 8600 },
+    { text: '  Biometric recovery took 2m14s. Cognitive recovery (gaze normalization) took 3m08s.', delay: 9000 },
+    { text: '', delay: 9400 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">CAPABILITY DECAY ANALYSIS</span>', delay: 9600 },
+    { text: '  CAP-1 Sensemaking: <span class="ai-insight">Stable.</span> No decay detected across 12 sessions.', delay: 10000 },
+    { text: '  CAP-4 Recovery: <span class="ai-critical">Declining.</span> 12% degradation over last 3 months. Current trajectory: below competency threshold in 6 weeks.', delay: 10400 },
+    { text: '', delay: 10800 },
+    { text: '<span class="prefix">◆</span> <span class="ai-insight">PREDICTIVE READINESS ASSESSMENT</span>', delay: 11000 },
+    { text: '  Shift readiness contribution: <span class="ai-warning">CONDITIONAL.</span> Operator is an asset for detection but a liability during sustained incidents.', delay: 11400 },
+    { text: '  <span class="ai-insight">RECOMMENDATION:</span> Pair with Tariq N. (CAP-4: 88) for 4 mentored error-recovery scenarios. Projected CAP-4 improvement: 52 → 71.', delay: 11800 },
+    { text: '', delay: 12200 },
+    { text: '<span class="prefix">✓</span> Analysis complete. <span class="ai-dim">Report saved to CAPS/Sessions/2026-04-09/Ahmed_Embassy/</span>', delay: 12400 },
   ];
 
   lines.forEach((line, i) => {
@@ -1996,7 +2179,7 @@ function runAiAnalysis() {
     aiRunning = false;
     btn.disabled = false;
     btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l2 0 0 12-2 0zM10 2l2 0 0 12-2 0z"/></svg> Re-run Analysis';
-  }, 11000);
+  }, 12800);
 }
 
 // ─── ROI CALCULATOR ─────────────────────────────────────────────
