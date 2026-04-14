@@ -1089,6 +1089,189 @@ canvas.radar {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   PERFORMANCE VS CAPABILITY SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.pvc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2.5rem 0;
+}
+@media (max-width: 700px) {
+  .pvc-grid { grid-template-columns: 1fr; }
+}
+.pvc-card {
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(245,240,235,0.06);
+}
+.pvc-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.pvc-card ul {
+  list-style: none;
+  padding: 0;
+}
+.pvc-card ul li {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  padding: 0.3rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--muted-gray);
+}
+.pvc-card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.pvc-perf { background: var(--surface-black); }
+.pvc-perf h3 { color: var(--muted-gray); }
+.pvc-perf ul li::before { background: var(--muted-gray); }
+.pvc-cap {
+  background: linear-gradient(135deg, rgba(23,119,231,0.08), rgba(25,33,61,0.6));
+  border-color: rgba(23,119,231,0.2);
+}
+.pvc-cap h3 { color: var(--brand-blue); }
+.pvc-cap ul li { color: var(--warm-white); }
+.pvc-cap ul li::before { background: var(--brand-blue); }
+
+.research-links {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 12px;
+}
+.research-links h4 {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.research-links ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+@media (max-width: 700px) {
+  .research-links ul { grid-template-columns: 1fr; }
+}
+.research-links ul li {
+  font-size: 0.78rem;
+  color: var(--muted-gray);
+  line-height: 1.5;
+}
+.research-links ul li a {
+  color: var(--brand-blue);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(23,119,231,0.3);
+  transition: border-color 0.2s ease;
+}
+.research-links ul li a:hover {
+  border-color: var(--brand-blue);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NEW SCENARIOS SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+.scenario-card {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.scenario-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(23,119,231,0.25);
+}
+.scenario-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.scenario-card-body {
+  padding: 1.5rem;
+}
+.scenario-card-body h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.scenario-card-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  background: rgba(23,119,231,0.12);
+  color: var(--brand-blue);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.scenario-card-body p {
+  font-size: 0.88rem;
+  color: var(--muted-gray);
+  line-height: 1.6;
+}
+.scenario-card-challenge {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(245,240,235,0.06);
+  font-size: 0.8rem;
+  color: var(--warm-white);
+  font-weight: 500;
+}
+.scenario-views {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(245,240,235,0.06);
+  padding-top: 0.75rem;
+}
+.scenario-views img {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.85;
+}
+.scenario-views img:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+.scenario-views-label {
+  grid-column: 1 / -1;
+  font-size: 0.6rem;
+  color: var(--muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    MR LECTURE SECTION
    ═══════════════════════════════════════════════════════════════ */
 .mr-video-container {
@@ -1126,10 +1309,88 @@ canvas.radar {
 .mr-feature-card p { font-size: 0.9rem; color: var(--muted-gray); line-height: 1.6; }
 
 /* ═══════════════════════════════════════════════════════════════
+   PASSWORD GATE
+   ═══════════════════════════════════════════════════════════════ */
+.password-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--body-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: opacity 0.5s ease;
+}
+.password-gate.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.password-gate img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+.password-gate h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-gray);
+  margin-bottom: 0;
+}
+.pw-input-wrap {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.pw-input-wrap input {
+  background: var(--surface-black);
+  border: 1px solid rgba(245,240,235,0.12);
+  color: var(--warm-white);
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  width: 260px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.pw-input-wrap input:focus {
+  border-color: var(--brand-blue);
+}
+.pw-input-wrap button {
+  background: var(--brand-blue);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+.pw-input-wrap button:hover { background: #1565c0; }
+.pw-error {
+  font-size: 0.8rem;
+  color: var(--data-negative);
+  height: 1.2rem;
+}
+.pw-footer {
+  font-size: 0.6rem;
+  color: rgba(245,240,235,0.15);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    PRINT
    ═══════════════════════════════════════════════════════════════ */
 @media print {
-  nav, .watermark, .scroll-prompt { display: none; }
+  nav, .watermark, .scroll-prompt, .password-gate { display: none; }
   section { min-height: auto; page-break-inside: avoid; padding: 2rem; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
@@ -1137,21 +1398,35 @@ canvas.radar {
 </head>
 <body>
 
+<!-- ═══ PASSWORD GATE ═══ -->
+<div class="password-gate" id="passwordGate">
+  <img src="mcc_logo_extracted.png" alt="MCC">
+  <h2>Confidential Document</h2>
+  <div class="pw-input-wrap">
+    <input type="password" id="pwInput" placeholder="Enter access code" autocomplete="off" autofocus>
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+  <div class="pw-error" id="pwError"></div>
+  <div class="pw-footer">MCC Internal | Authorized Personnel Only</div>
+</div>
+
 <!-- ═══ NAVIGATION ═══ -->
 <nav id="mainNav">
   <div class="nav-logo"><img src="mcc_logo_extracted.png" alt="MCC - Monitoring and Control Center" style="height:36px; width:auto; vertical-align:middle;"></div>
   <div class="nav-links">
     <a href="#hero">Home</a>
     <a href="#current">Current</a>
+    <a href="#pvc">Why Capability</a>
     <a href="#gap">Next Step</a>
     <a href="#caps">CAPS</a>
     <a href="#dashboards">Dashboards</a>
     <a href="#standards">Standards</a>
     <a href="#ai">AI Engine</a>
     <a href="#compare">Compare</a>
-    <a href="#roi">ROI</a>
+    <a href="#scenarios">Scenarios</a>
     <a href="#mr-lecture">MR Lecture</a>
     <a href="#roadmap">Roadmap</a>
+    <a href="#roi">ROI</a>
   </div>
 </nav>
 
@@ -1213,6 +1488,58 @@ canvas.radar {
 
     <div class="key-message reveal reveal-delay-3">
       The system measures <strong>performance</strong>. The next step: measuring <strong>capability</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PERFORMANCE VS CAPABILITY
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="pvc">
+  <div class="section-inner">
+    <div class="section-label reveal">The Critical Difference</div>
+    <h2 class="reveal">Performance tells you <span class="highlight">what happened.</span><br>Capability tells you <span class="highlight">what will happen next.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Think of it like a medical exam. A blood test shows your numbers today. But it doesn't tell you how your body responds to stress, infection, or crisis. Capability is the immune system. Performance is just the snapshot.</p>
+
+    <img src="visuals/perf-vs-capability.jpg" alt="Performance is the tip of the iceberg. Capability is everything underneath." class="reveal reveal-delay-2" style="width:100%; max-width:700px; border-radius:16px; margin:1.5rem auto; display:block;">
+
+    <div class="pvc-grid reveal reveal-delay-2">
+      <div class="pvc-card pvc-perf">
+        <h3>Performance Scoring</h3>
+        <ul>
+          <li>Did they detect the threat? Yes or no.</li>
+          <li>How fast did they respond?</li>
+          <li>How many false alarms?</li>
+          <li>Final score: 82. "Competent."</li>
+          <li>No context. No prediction. Conversation over.</li>
+        </ul>
+      </div>
+      <div class="pvc-card pvc-cap">
+        <h3>Capability Measurement</h3>
+        <ul>
+          <li>Can they read a situation under real stress?</li>
+          <li>Do they collapse or recover after errors?</li>
+          <li>How does their attention shift when heart rate spikes?</li>
+          <li>Are they getting stronger or decaying between sessions?</li>
+          <li>What specific intervention will close their gap?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="key-message reveal reveal-delay-3">
+      Two operators both score 82. One recovers from mistakes in 20 seconds. The other spirals for 90. A performance score treats them as equal. <strong>Capability measurement knows they are fundamentally different.</strong>
+    </div>
+
+    <div class="research-links reveal reveal-delay-3">
+      <h4>Grounded in Neuroscience and Human Factors Research</h4>
+      <ul>
+        <li><a href="https://doi.org/10.1037/0033-295X.115.2.336" target="_blank" rel="noopener">Ericsson (2008)</a> - Deliberate practice vs innate ability in expert performance</li>
+        <li><a href="https://doi.org/10.1016/j.tics.2010.01.006" target="_blank" rel="noopener">Diamond (2013)</a> - Executive functions and cognitive performance under stress</li>
+        <li><a href="https://doi.org/10.1177/0018720816633719" target="_blank" rel="noopener">Hancock & Warm (2019)</a> - Vigilance and sustained attention in monitoring tasks</li>
+        <li><a href="https://doi.org/10.1016/j.apergo.2017.04.016" target="_blank" rel="noopener">Wickens et al. (2015)</a> - Workload, stress, and operator performance degradation</li>
+        <li><a href="https://doi.org/10.1037/a0035325" target="_blank" rel="noopener">Kahneman (2011)</a> - System 1 vs System 2 decision making under pressure</li>
+        <li><a href="https://doi.org/10.1016/j.cobeha.2017.07.007" target="_blank" rel="noopener">Arnsten (2009)</a> - Stress-induced prefrontal cortex dysfunction in decision making</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -1648,63 +1975,120 @@ canvas.radar {
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 8: ROI CALCULATOR
+     NEW SCENARIOS
      ═══════════════════════════════════════════════════════════════ -->
-<section id="roi">
+<section id="scenarios">
   <div class="section-inner">
-    <div class="section-label reveal">Return on Investment</div>
-    <h2 class="reveal">The cost of<br><span class="highlight">not knowing.</span></h2>
+    <div class="section-label reveal">Phase 2 Scenarios</div>
+    <h2 class="reveal">Six new environments.<br><span class="highlight">Every entity category covered.</span></h2>
+    <p class="subtitle reveal reveal-delay-1">Your current system trains operators across 5 scenarios. Phase 2 expands to cover the full range of entities your operators monitor every day.</p>
 
-    <div class="roi-controls reveal reveal-delay-1">
-      <div class="roi-input-group">
-        <label class="roi-label">Number of Operators</label>
-        <input type="range" class="roi-slider" id="roiOperators" min="8" max="200" value="40" oninput="updateROI()">
-        <div class="roi-value" id="roiOperatorsVal">40</div>
+    <div class="scenario-grid">
+      <div class="scenario-card reveal reveal-delay-1">
+        <img src="visuals/scenario-seaport.png" alt="Seaport and Marina">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
+          <h3>Seaport & Marina</h3>
+          <p>Open water perimeters. Passenger gangways. Vessel tracking across docks. Operators learn to maintain Detection-level coverage across wide, unstructured spaces where threats move differently.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>maritime perimeter surveillance and access control</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/seaport-gangway.jpg" alt="Passenger gangway">
+            <img src="visuals/seaport-perimeter.jpg" alt="Marina perimeter at night">
+            <img src="visuals/seaport-cargo.jpg" alt="Cargo inspection area">
+          </div>
+        </div>
       </div>
-      <div class="roi-input-group">
-        <label class="roi-label">Training Sessions / Month</label>
-        <input type="range" class="roi-slider" id="roiSessions" min="1" max="20" value="4" oninput="updateROI()">
-        <div class="roi-value" id="roiSessionsVal">4</div>
+
+      <div class="scenario-card reveal reveal-delay-2">
+        <img src="visuals/scenario-metro.png" alt="Metro Station">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
+          <h3>Metro Station</h3>
+          <p>Multi-level environments. Rush hour density. Escalator blind spots. Operators train on the hardest challenge in urban surveillance: maintaining Identification-level attention in high-flow transit.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>high-density crowd monitoring across vertical spaces</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/metro-platform.jpg" alt="Rush hour platform">
+            <img src="visuals/metro-corridor.jpg" alt="Escalator corridor">
+            <img src="visuals/metro-tickethall.jpg" alt="Ticket hall from above">
+          </div>
+        </div>
       </div>
-      <div class="roi-input-group">
-        <label class="roi-label">Manual Assessment Hours / Operator / Month</label>
-        <input type="range" class="roi-slider" id="roiManualHours" min="1" max="10" value="3" oninput="updateROI()">
-        <div class="roi-value" id="roiManualHoursVal">3 hrs</div>
+
+      <div class="scenario-card reveal reveal-delay-3">
+        <img src="visuals/scenario-hospital.png" alt="Hospital Emergency Department">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Healthcare &bull; 30-Day Retention</div>
+          <h3>Hospital & Emergency</h3>
+          <p>Sensitive restricted zones. Ambulance bays. Pharmacy and medication storage. Operators balance security vigilance with patient privacy in environments where misjudgment has immediate consequences.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>privacy-sensitive surveillance in critical care settings</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/hospital-ambulance.jpg" alt="Ambulance bay">
+            <img src="visuals/hospital-pharmacy.jpg" alt="Pharmacy window">
+            <img src="visuals/hospital-restricted.jpg" alt="Restricted area corridor">
+          </div>
+        </div>
       </div>
-      <div class="roi-input-group">
-        <label class="roi-label">Cost of a Missed Detection (AED)</label>
-        <input type="range" class="roi-slider" id="roiMissedCost" min="10000" max="5000000" step="10000" value="500000" oninput="updateROI()">
-        <div class="roi-value" id="roiMissedCostVal">500,000</div>
+
+      <div class="scenario-card reveal reveal-delay-1">
+        <img src="visuals/scenario-bank.png" alt="Banking District">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Financial &bull; 180-Day Retention</div>
+          <h3>Banking District</h3>
+          <p>Vault monitoring. ATM zones. Cash handling areas. Operators train on sustained Recognition-level attention in high-value environments where a single missed face can cost millions.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>high-value asset surveillance and after-hours monitoring</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/bank-atm.jpg" alt="ATM area">
+            <img src="visuals/bank-vault.jpg" alt="Vault room">
+            <img src="visuals/bank-counter.jpg" alt="Cash counter">
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card reveal reveal-delay-2">
+        <img src="visuals/scenario-stadium.png" alt="Stadium Night Event">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Sports &amp; Events &bull; 30-Day Retention</div>
+          <h3>Stadium & Sports Event</h3>
+          <p>50,000+ capacity. Baggage screening. VIP access control. Broadcast areas. The most demanding scenario: all 4 coverage levels active simultaneously across dozens of cameras.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>mass-event coordination across all coverage levels</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/stadium-entrance.jpg" alt="Security checkpoint">
+            <img src="visuals/stadium-vip.jpg" alt="VIP entrance">
+            <img src="visuals/stadium-crowd.jpg" alt="Crowd from concourse">
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card reveal reveal-delay-3">
+        <img src="visuals/scenario-hotel.png" alt="Luxury Hotel Lobby">
+        <div class="scenario-card-body">
+          <div class="scenario-card-tag">Hospitality &bull; 180-Day Retention</div>
+          <h3>Hotel & Hospitality</h3>
+          <p>Guest privacy balanced with security. Lobby flow monitoring. Parking structure coverage. Operators learn the most nuanced skill: knowing when to watch closely and when to respect boundaries.</p>
+          <div class="scenario-card-challenge">Training gap it fills: <strong>discretion-aware surveillance in hospitality environments</strong></div>
+          <div class="scenario-views">
+            <div class="scenario-views-label">Scenario Views</div>
+            <img src="visuals/hotel-entrance.jpg" alt="Grand entrance">
+            <img src="visuals/hotel-parking.jpg" alt="Parking structure">
+            <img src="visuals/hotel-corridor.jpg" alt="Guest floor corridor">
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="roi-results reveal reveal-delay-2">
-      <div class="roi-result-card">
-        <div class="roi-result-value" id="roiTimeSaved">1,440</div>
-        <div class="roi-result-label">Assessment Hours Saved / Year</div>
-      </div>
-      <div class="roi-result-card">
-        <div class="roi-result-value" id="roiCapImprove">+23%</div>
-        <div class="roi-result-label">Projected Capability Improvement</div>
-      </div>
-      <div class="roi-result-card">
-        <div class="roi-result-value" id="roiRiskReduction">67%</div>
-        <div class="roi-result-label">Reduction in Capability Blind Spots</div>
-      </div>
-      <div class="roi-result-card">
-        <div class="roi-result-value" id="roiCostAvoid" style="color:var(--data-positive);">AED 2.4M</div>
-        <div class="roi-result-label">Estimated Annual Risk Avoidance</div>
-      </div>
-    </div>
-
-    <div class="key-message reveal" style="margin-top:2rem;">
-      Every hidden weakness is a liability. CAPS makes it visible <strong>before</strong> it becomes an incident.
+    <div class="key-message reveal">
+      5 scenarios built. 6 more ready. Together, they cover every entity category your operators will face in the field. <strong>No training gap left.</strong>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 10: MR AI LECTURER
+     MR AI LECTURER
      ═══════════════════════════════════════════════════════════════ -->
 <section id="mr-lecture">
   <div class="section-inner">
@@ -1789,7 +2173,63 @@ canvas.radar {
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SECTION 10: CLOSING
+     ROI CALCULATOR
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="roi">
+  <div class="section-inner">
+    <div class="section-label reveal">Return on Investment</div>
+    <h2 class="reveal">The cost of<br><span class="highlight">not knowing.</span></h2>
+
+    <div class="roi-controls reveal reveal-delay-1">
+      <div class="roi-input-group">
+        <label class="roi-label">Number of Operators</label>
+        <input type="range" class="roi-slider" id="roiOperators" min="8" max="200" value="40" oninput="updateROI()">
+        <div class="roi-value" id="roiOperatorsVal">40</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Training Sessions / Month</label>
+        <input type="range" class="roi-slider" id="roiSessions" min="1" max="20" value="4" oninput="updateROI()">
+        <div class="roi-value" id="roiSessionsVal">4</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Manual Assessment Hours / Operator / Month</label>
+        <input type="range" class="roi-slider" id="roiManualHours" min="1" max="10" value="3" oninput="updateROI()">
+        <div class="roi-value" id="roiManualHoursVal">3 hrs</div>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Cost of a Missed Detection (AED)</label>
+        <input type="range" class="roi-slider" id="roiMissedCost" min="10000" max="5000000" step="10000" value="500000" oninput="updateROI()">
+        <div class="roi-value" id="roiMissedCostVal">500,000</div>
+      </div>
+    </div>
+
+    <div class="roi-results reveal reveal-delay-2">
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiTimeSaved">1,440</div>
+        <div class="roi-result-label">Assessment Hours Saved / Year</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiCapImprove">+23%</div>
+        <div class="roi-result-label">Projected Capability Improvement</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiRiskReduction">67%</div>
+        <div class="roi-result-label">Reduction in Capability Blind Spots</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-value" id="roiCostAvoid" style="color:var(--data-positive);">AED 2.4M</div>
+        <div class="roi-result-label">Estimated Annual Risk Avoidance</div>
+      </div>
+    </div>
+
+    <div class="key-message reveal" style="margin-top:2rem;">
+      Every hidden weakness is a liability. CAPS makes it visible <strong>before</strong> it becomes an incident.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CLOSING
      ═══════════════════════════════════════════════════════════════ -->
 <section id="closing" style="background: url('visuals/closing-skyline.png') center center / cover no-repeat; position:relative;">
   <div style="position:absolute; inset:0; background: linear-gradient(to bottom, rgba(9,9,9,0.75), rgba(9,9,9,0.9));"></div>
@@ -2222,6 +2662,41 @@ window.addEventListener('resize', () => {
     if (document.getElementById('tab-org').classList.contains('active')) drawOrgCharts();
   }, 200);
 });
+
+// ─── PASSWORD GATE ─────────────────────────────────────────────
+const PASS_HASH = '7914fac274db780fed02fe9ba8da03aba278446f627a4b82402eca97fee20d56';
+
+async function sha256(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const input = document.getElementById('pwInput').value;
+  const hash = await sha256(input);
+  if (hash === PASS_HASH) {
+    document.getElementById('passwordGate').classList.add('hidden');
+    document.body.style.overflow = '';
+    sessionStorage.setItem('mcc_auth', '1');
+  } else {
+    document.getElementById('pwError').textContent = 'Incorrect access code';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+// Enter key support
+document.getElementById('pwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// Check if already authenticated this session
+if (sessionStorage.getItem('mcc_auth') === '1') {
+  document.getElementById('passwordGate').classList.add('hidden');
+} else {
+  document.body.style.overflow = 'hidden';
+}
 </script>
 
 </body>
