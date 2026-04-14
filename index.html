@@ -1186,9 +1186,9 @@ canvas.radar {
    NEW SCENARIOS SECTION
    ═══════════════════════════════════════════════════════════════ */
 .scenario-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
   margin: 2.5rem 0;
 }
 .scenario-card {
@@ -1196,79 +1196,113 @@ canvas.radar {
   border: 1px solid rgba(245,240,235,0.06);
   border-radius: 16px;
   overflow: hidden;
-  transition: border-color 0.3s ease, transform 0.3s ease;
 }
-.scenario-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(23,119,231,0.25);
-}
-.scenario-card img {
+.scenario-card > img {
   width: 100%;
-  height: 180px;
+  height: 320px;
   object-fit: cover;
   display: block;
 }
+@media (max-width: 700px) {
+  .scenario-card > img { height: 200px; }
+}
 .scenario-card-body {
-  padding: 1.5rem;
+  padding: 2rem;
+}
+.scenario-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 .scenario-card-body h3 {
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0;
 }
 .scenario-card-tag {
   display: inline-block;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.7rem;
   border-radius: 100px;
   background: rgba(23,119,231,0.12);
   color: var(--brand-blue);
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  white-space: nowrap;
 }
-.scenario-card-body p {
-  font-size: 0.88rem;
+.scenario-card-body > p {
+  font-size: 0.95rem;
   color: var(--muted-gray);
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-bottom: 1rem;
 }
-.scenario-card-challenge {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(245,240,235,0.06);
-  font-size: 0.8rem;
+.scenario-dynamics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+@media (max-width: 700px) {
+  .scenario-dynamics { grid-template-columns: 1fr; }
+}
+.scenario-dynamics-card {
+  background: var(--deep-navy);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.scenario-dynamics-card h4 {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.scenario-dynamics-card.threats h4 { color: var(--data-warning); }
+.scenario-dynamics-card.relevance h4 { color: var(--brand-blue); }
+.scenario-dynamics-card p {
+  font-size: 0.88rem;
   color: var(--warm-white);
-  font-weight: 500;
+  line-height: 1.6;
 }
 .scenario-views {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-top: 0.75rem;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
   border-top: 1px solid rgba(245,240,235,0.06);
-  padding-top: 0.75rem;
-}
-.scenario-views img {
-  width: 100%;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  opacity: 0.85;
-}
-.scenario-views img:hover {
-  transform: scale(1.05);
-  opacity: 1;
 }
 .scenario-views-label {
   grid-column: 1 / -1;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   color: var(--muted-gray);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-bottom: 2px;
+  margin-bottom: 0.25rem;
+}
+.scenario-view-item { text-align: center; }
+.scenario-view-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  transition: transform 0.2s ease;
+}
+.scenario-view-item img:hover { transform: scale(1.03); }
+.scenario-view-item span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted-gray);
+  margin-top: 0.4rem;
+}
+@media (max-width: 700px) {
+  .scenario-views { grid-template-columns: 1fr; }
+  .scenario-view-item img { height: 200px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1984,101 +2018,229 @@ canvas.radar {
     <p class="subtitle reveal reveal-delay-1">Your current system trains operators across 5 scenarios. Phase 2 expands to cover the full range of entities your operators monitor every day.</p>
 
     <div class="scenario-grid">
-      <div class="scenario-card reveal reveal-delay-1">
+
+      <!-- SEAPORT -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-seaport.png" alt="Seaport and Marina">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
-          <h3>Seaport & Marina</h3>
-          <p>Open water perimeters. Passenger gangways. Vessel tracking across docks. Operators learn to maintain Detection-level coverage across wide, unstructured spaces where threats move differently.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>maritime perimeter surveillance and access control</strong></div>
+          <div class="scenario-card-header">
+            <h3>Seaport & Marina</h3>
+            <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
+          </div>
+          <p>Open water perimeters, passenger gangways, and cargo docks. The most unstructured surveillance environment an operator will face. Threats don't follow corridors here.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>Unauthorized vessel approaching restricted dock. Suspicious cargo unloading after hours. Perimeter breach along the waterfront fence line. Passenger behaving erratically on the boarding gangway.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>MCC monitors port entities under Group C with 90-day retention. Maritime surveillance is the least trained environment. Operators have zero practice tracking threats that move on water, not roads.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/seaport-gangway.jpg" alt="Passenger gangway">
-            <img src="visuals/seaport-perimeter.jpg" alt="Marina perimeter at night">
-            <img src="visuals/seaport-cargo.jpg" alt="Cargo inspection area">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/seaport-gangway.jpg" alt="Passenger gangway">
+              <span>Passenger Gangway</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/seaport-perimeter.jpg" alt="Marina perimeter at night">
+              <span>Marina Perimeter (Night)</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/seaport-cargo.jpg" alt="Cargo inspection area">
+              <span>Cargo Inspection Area</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="scenario-card reveal reveal-delay-2">
+      <!-- METRO -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-metro.png" alt="Metro Station">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
-          <h3>Metro Station</h3>
-          <p>Multi-level environments. Rush hour density. Escalator blind spots. Operators train on the hardest challenge in urban surveillance: maintaining Identification-level attention in high-flow transit.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>high-density crowd monitoring across vertical spaces</strong></div>
+          <div class="scenario-card-header">
+            <h3>Metro Station</h3>
+            <div class="scenario-card-tag">Public Transport &bull; 90-Day Retention</div>
+          </div>
+          <p>Multi-level, high-density transit. Escalator blind spots. Rush hour crowd surges. The hardest challenge in urban surveillance: maintaining Identification-level attention when hundreds of people move through every minute.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>Unattended bag left on the platform. Pickpocket working the rush hour crowd. Individual jumping turnstiles and descending toward restricted track-level areas. Coordinated distraction near the ticket hall.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>Abu Dhabi Metro is launching. MCC operators will monitor transit CCTV from day one with zero experience in high-density vertical environments. This scenario builds that capability before they need it.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/metro-platform.jpg" alt="Rush hour platform">
-            <img src="visuals/metro-corridor.jpg" alt="Escalator corridor">
-            <img src="visuals/metro-tickethall.jpg" alt="Ticket hall from above">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/metro-platform.jpg" alt="Rush hour platform">
+              <span>Rush Hour Platform</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/metro-corridor.jpg" alt="Escalator corridor">
+              <span>Escalator Corridor</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/metro-tickethall.jpg" alt="Ticket hall from above">
+              <span>Ticket Hall (Overhead View)</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="scenario-card reveal reveal-delay-3">
+      <!-- HOSPITAL -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-hospital.png" alt="Hospital Emergency Department">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Healthcare &bull; 30-Day Retention</div>
-          <h3>Hospital & Emergency</h3>
-          <p>Sensitive restricted zones. Ambulance bays. Pharmacy and medication storage. Operators balance security vigilance with patient privacy in environments where misjudgment has immediate consequences.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>privacy-sensitive surveillance in critical care settings</strong></div>
+          <div class="scenario-card-header">
+            <h3>Hospital & Emergency</h3>
+            <div class="scenario-card-tag">Healthcare &bull; 30-Day Retention</div>
+          </div>
+          <p>Restricted zones, ambulance bays, pharmacy storage. Operators must balance security vigilance with patient privacy in environments where a wrong call has immediate legal and human consequences.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>Unauthorized individual accessing pharmacy medication storage. Aggressive person in the ER waiting area escalating toward staff. Suspicious activity near ambulance bay drug cabinets. Tailgating through restricted OR corridor.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>Healthcare is a mandatory surveillance coverage category. Operators must handle legally sensitive zones where false alarms disrupt patient care and missed threats endanger lives. No current scenario trains this judgment.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/hospital-ambulance.jpg" alt="Ambulance bay">
-            <img src="visuals/hospital-pharmacy.jpg" alt="Pharmacy window">
-            <img src="visuals/hospital-restricted.jpg" alt="Restricted area corridor">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/hospital-ambulance.jpg" alt="Ambulance bay">
+              <span>Ambulance Bay</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/hospital-pharmacy.jpg" alt="Pharmacy window">
+              <span>Pharmacy Storage</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/hospital-restricted.jpg" alt="Restricted area corridor">
+              <span>Restricted Corridor</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="scenario-card reveal reveal-delay-1">
+      <!-- BANK -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-bank.png" alt="Banking District">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Financial &bull; 180-Day Retention</div>
-          <h3>Banking District</h3>
-          <p>Vault monitoring. ATM zones. Cash handling areas. Operators train on sustained Recognition-level attention in high-value environments where a single missed face can cost millions.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>high-value asset surveillance and after-hours monitoring</strong></div>
+          <div class="scenario-card-header">
+            <h3>Banking District</h3>
+            <div class="scenario-card-tag">Financial &bull; 180-Day Retention</div>
+          </div>
+          <p>Vault areas, ATM zones, cash counters. High-value environments where sustained Recognition-level attention is mandatory and a single missed face at the counter can enable fraud worth millions.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>ATM card skimming device installation under camera blind spot. After-hours movement detected near the vault corridor. Coordinated distraction at cash counters while an accomplice accesses a restricted area. Suspicious loitering near safety deposit boxes.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>Financial institutions require 180-day retention and mandatory Recognition-level coverage at all cash handling areas. This is the highest-stakes entity category. Operators need practice in sustained, high-consequence attention.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/bank-atm.jpg" alt="ATM area">
-            <img src="visuals/bank-vault.jpg" alt="Vault room">
-            <img src="visuals/bank-counter.jpg" alt="Cash counter">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/bank-atm.jpg" alt="ATM area">
+              <span>ATM Zone</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/bank-vault.jpg" alt="Vault room">
+              <span>Vault Room</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/bank-counter.jpg" alt="Cash counter">
+              <span>Cash Counter</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="scenario-card reveal reveal-delay-2">
+      <!-- STADIUM -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-stadium.png" alt="Stadium Night Event">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Sports &amp; Events &bull; 30-Day Retention</div>
-          <h3>Stadium & Sports Event</h3>
-          <p>50,000+ capacity. Baggage screening. VIP access control. Broadcast areas. The most demanding scenario: all 4 coverage levels active simultaneously across dozens of cameras.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>mass-event coordination across all coverage levels</strong></div>
+          <div class="scenario-card-header">
+            <h3>Stadium & Sports Event</h3>
+            <div class="scenario-card-tag">Sports &amp; Events &bull; 30-Day Retention</div>
+          </div>
+          <p>The most complex multi-camera challenge an operator will face. All 4 coverage levels active simultaneously across dozens of cameras. Massive crowd, multiple entry points, VIP zones, broadcast areas.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>Bag abandoned near entrance gate during peak entry. Crowd surge at a bottleneck creating crush risk. Unauthorized individual in VIP or broadcast area. Coordinated entry of flagged persons through multiple gates simultaneously.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>Stadiums require Identification at entrances, Recognition in seating areas, Detection across the full perimeter, and Vehicle View at parking gates. All four levels, all at once. This is the ultimate operator stress test.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/stadium-entrance.jpg" alt="Security checkpoint">
-            <img src="visuals/stadium-vip.jpg" alt="VIP entrance">
-            <img src="visuals/stadium-crowd.jpg" alt="Crowd from concourse">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/stadium-entrance.jpg" alt="Security checkpoint">
+              <span>Security Checkpoint</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/stadium-vip.jpg" alt="VIP entrance">
+              <span>VIP Entrance</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/stadium-crowd.jpg" alt="Crowd from concourse">
+              <span>Concourse View</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="scenario-card reveal reveal-delay-3">
+      <!-- HOTEL -->
+      <div class="scenario-card reveal">
         <img src="visuals/scenario-hotel.png" alt="Luxury Hotel Lobby">
         <div class="scenario-card-body">
-          <div class="scenario-card-tag">Hospitality &bull; 180-Day Retention</div>
-          <h3>Hotel & Hospitality</h3>
-          <p>Guest privacy balanced with security. Lobby flow monitoring. Parking structure coverage. Operators learn the most nuanced skill: knowing when to watch closely and when to respect boundaries.</p>
-          <div class="scenario-card-challenge">Training gap it fills: <strong>discretion-aware surveillance in hospitality environments</strong></div>
+          <div class="scenario-card-header">
+            <h3>Hotel & Hospitality</h3>
+            <div class="scenario-card-tag">Hospitality &bull; 180-Day Retention</div>
+          </div>
+          <p>The most nuanced judgment call in surveillance. Operators must monitor without violating guest privacy. Knowing when to watch closely and when to respect boundaries is a skill no exam can test.</p>
+          <div class="scenario-dynamics">
+            <div class="scenario-dynamics-card threats">
+              <h4>Scenario Dynamics</h4>
+              <p>Individual tailgating through a secured guest floor entrance. Suspicious loitering in the parking structure near high-value vehicles. Unauthorized room access attempt using a cloned key card. After-hours movement in staff-only service corridors.</p>
+            </div>
+            <div class="scenario-dynamics-card relevance">
+              <h4>Why This Matters for MCC</h4>
+              <p>Hotels require 180-day retention. Guest privacy laws create a unique constraint: operators must detect threats while respecting boundaries. Over-monitoring is a liability. Under-monitoring is a risk. Only practice builds this instinct.</p>
+            </div>
+          </div>
           <div class="scenario-views">
-            <div class="scenario-views-label">Scenario Views</div>
-            <img src="visuals/hotel-entrance.jpg" alt="Grand entrance">
-            <img src="visuals/hotel-parking.jpg" alt="Parking structure">
-            <img src="visuals/hotel-corridor.jpg" alt="Guest floor corridor">
+            <div class="scenario-views-label">Environment Views</div>
+            <div class="scenario-view-item">
+              <img src="visuals/hotel-entrance.jpg" alt="Grand entrance">
+              <span>Grand Entrance</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/hotel-parking.jpg" alt="Parking structure">
+              <span>Parking Structure</span>
+            </div>
+            <div class="scenario-view-item">
+              <img src="visuals/hotel-corridor.jpg" alt="Guest floor corridor">
+              <span>Guest Floor Corridor</span>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="key-message reveal">
@@ -2106,29 +2268,21 @@ canvas.radar {
 
     <div class="mr-features">
       <div class="mr-feature-card reveal reveal-delay-1">
-        <div class="mr-feature-icon">&#127919;</div>
-        <h3>Consistent Delivery</h3>
-        <p>Every operator gets the same quality instruction, every time. No trainer variance. No knowledge gaps between shifts.</p>
+        <h3>Spatial Understanding</h3>
+        <p>MCC operators currently learn camera layouts from 2D diagrams. MR puts them inside the surveillance environment. They see coverage zones, blind spots, and overlaps as 3D volumes in the room. Understanding where cameras see becomes intuitive, not theoretical.</p>
       </div>
       <div class="mr-feature-card reveal reveal-delay-2">
-        <div class="mr-feature-icon">&#128225;</div>
-        <h3>3D Spatial Demonstrations</h3>
-        <p>Camera placement, coverage zones, and blind spots rendered in the operator's actual space. See your 4 coverage levels in three dimensions.</p>
+        <h3>Personalized Training</h3>
+        <p>CAPS profiles identify each operator's specific weakness. MR delivers targeted drills. An operator weak in Recovery gets error-cascade scenarios. One weak in Sensemaking gets multi-camera scan exercises. No two operators get the same training path.</p>
       </div>
       <div class="mr-feature-card reveal reveal-delay-3">
-        <div class="mr-feature-icon">&#129309;</div>
-        <h3>22-Device Co-Located MR</h3>
-        <p>Entire teams train together in shared mixed reality. See the same threats, coordinate responses in real time across all 8 operator stations.</p>
-      </div>
-      <div class="mr-feature-card reveal reveal-delay-4">
-        <div class="mr-feature-icon">&#129302;</div>
-        <h3>Future: AI Lecturer</h3>
-        <p>AI-driven instructor that adapts to individual operator CAPS profiles, focusing on their specific capability gaps. Personalized training at scale.</p>
+        <h3>AI-Guided Instruction</h3>
+        <p>An AI lecturer adapts in real time. It pauses when biometrics show cognitive overload. It repeats concepts the operator struggled with. It adjusts difficulty based on their CAPS trajectory. Every session is personalized at a level no human trainer can match.</p>
       </div>
     </div>
 
     <div class="key-message reveal">
-      MR lecture modules align directly with CAPS profiles. An operator weak in <strong>CAP-4 Recovery</strong> gets targeted error-recovery scenarios in mixed reality. The system that <strong>measures</strong> capability now <strong>teaches</strong> it.
+      MCC operators learn from screens today. MR puts them <strong>inside</strong> the control room of the future. The system that measures capability now <strong>teaches</strong> it.
     </div>
   </div>
 </section>
